@@ -269,6 +269,17 @@ body{
       <div class="park-body" id="park-txt"></div>
     </div>
   </div>
+
+  <!-- DAILY COST -->
+  <div class="sec">
+    <div class="sec-hd" onclick="tog('cost')">
+      <div class="sec-title">💴&nbsp; 今日支出 <span id="cost-sum" style="color:var(--red);font-weight:700;margin-left:6px"></span></div>
+      <span class="chev" id="chev-cost">▼</span>
+    </div>
+    <div class="sec-body" id="body-cost">
+      <div id="cost-body" style="padding-top:4px"></div>
+    </div>
+  </div>
 </div>
 
 <!-- BUDGET -->
@@ -646,6 +657,25 @@ const DAYS=[
 ];
 
 const DATES=["11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25","11/26","11/27","11/28"];
+
+// 每日支出估算（2人，¥，不含住宿）
+// t=过路 f=加油 p=停车 m=餐饮 k=门票/交通
+const COSTS={
+ 1:{t:6500,f:3040,p:1800,m:10000,k:4060,note:"水族馆门票 ¥2,030×2"},
+ 2:{t:2500,f:1700,p:600,m:8000,k:640,note:"郡上八幡城 ¥320×2"},
+ 3:{t:0,f:0,p:1000,m:12000,k:880,note:"高山陣屋 ¥440×2 · 步行日无驾驶"},
+ 4:{t:2700,f:2070,p:2500,m:10000,k:0,note:"白川乡村营停车 ¥1,000 + 金泽酒店夜停 ¥1,500"},
+ 5:{t:0,f:0,p:1500,m:12000,k:640,note:"兼六园 ¥320×2 · 步行日无驾驶"},
+ 6:{t:6000,f:2920,p:1500,m:10000,k:2000,note:"北斋馆 ¥1,000×2"},
+ 7:{t:1500,f:730,p:1500,m:9000,k:1600,note:"雪猴公苑 ¥800×2"},
+ 8:{t:3000,f:1340,p:2100,m:11000,k:1400,note:"松本城 ¥700×2"},
+ 9:{t:5500,f:4010,p:1500,m:9000,k:0,note:"箱根神社 + 大涌谷均免费入场"},
+ 10:{t:1500,f:1100,p:0,m:5000,k:2200,note:"天空步道 ¥1,100×2 · 旅馆含晚餐早餐"},
+ 11:{t:0,f:490,p:0,m:4000,k:1400,note:"大室山缆车 ¥700×2 · 旅馆含两餐"},
+ 12:{t:3500,f:1460,p:0,m:8000,k:0,note:"首都高过路另计,还车后无停车"},
+ 13:{t:0,f:0,p:0,m:10000,k:1600,note:"六义园 ¥300×2 + 地铁一日券 ¥1,000"},
+ 14:{t:0,f:0,p:0,m:4000,k:5040,note:"Skyliner ¥2,520×2 到成田"}
+};
 let cur=0,budOpen=false,tollOpen=false,fuelOpen=false;
 
 function buildGrid(){
@@ -694,8 +724,28 @@ function render(i){
   // parking
   document.getElementById('park-txt').textContent=d.parking;
 
-  // reset sections: sights closed, meals open, park closed
-  ['sights','park'].forEach(k=>{
+  // cost
+  const c=COSTS[d.d];
+  const total=c.t+c.f+c.p+c.m+c.k;
+  document.getElementById('cost-sum').textContent='≈ ¥'+total.toLocaleString();
+  const rows=[
+    ['🛣 过路费',c.t],
+    ['⛽ 加油',c.f],
+    ['🅿 停车',c.p],
+    ['🍱 餐饮(2人)',c.m],
+    ['🎟 门票/交通',c.k]
+  ].filter(r=>r[1]>0);
+  let html='<table class="btbl" style="width:100%">';
+  rows.forEach(r=>{
+    html+=`<tr><td class="hn" style="padding:7px 0">${r[0]}</td><td class="pr" style="padding:7px 0">¥${r[1].toLocaleString()}</td></tr>`;
+  });
+  html+=`<tr style="background:rgba(159,65,39,.05)"><td style="font-weight:700;color:var(--ink);padding:9px 0">合计</td><td class="pr" style="font-size:15px;padding:9px 0">¥${total.toLocaleString()}</td></tr>`;
+  html+='</table>';
+  if(c.note)html+=`<div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">💡 ${c.note}</div>`;
+  document.getElementById('cost-body').innerHTML=html;
+
+  // reset sections: sights/park/cost closed, meals open
+  ['sights','park','cost'].forEach(k=>{
     document.getElementById('body-'+k).classList.remove('open');
     document.getElementById('chev-'+k).classList.remove('open');
   });
