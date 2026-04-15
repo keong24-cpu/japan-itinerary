@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>日本自驾行程｜大阪进东京出｜2026年11月</title>
+<style>
+:root{
+  --paper:rgba(255,250,242,0.96);
+  --ink:#1f2b2f;--muted:#5c6b6f;--line:rgba(31,43,47,0.08);
+  --red:#9f4127;--red-lt:rgba(159,65,39,0.07);--red-bd:rgba(159,65,39,0.18);
+  --blue:#1e5c72;--blue-lt:rgba(30,92,114,0.07);--blue-bd:rgba(30,92,114,0.16);
+  --gold:#c69c4d;--gold-lt:rgba(198,156,77,0.1);
+  --green:#2e7d52;--green-lt:rgba(46,125,82,0.08);
+  --r:18px;--sh:0 10px 28px rgba(31,43,47,0.09);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  background:
+    radial-gradient(circle at top right,rgba(198,156,77,0.16),transparent 30%),
+    radial-gradient(circle at left 25%,rgba(30,92,114,0.09),transparent 30%),
+    linear-gradient(180deg,#f7f2e9,#eee4d3);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  min-height:100vh;padding:12px 10px;
+}
+.wrap{max-width:540px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,rgba(255,249,241,.98),rgba(246,237,224,.96));
+  border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);
+  padding:18px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-50px;bottom:-50px;width:200px;height:200px;
+  border-radius:50%;background:radial-gradient(circle,rgba(159,65,39,.11),transparent 68%);pointer-events:none}
+.hero-ey{font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.hero-t{font-size:clamp(20px,5vw,28px);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:3px;
+  font-family:"Noto Serif SC",Georgia,serif}
+.hero-s{font-size:12px;color:var(--muted);margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.stat{background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:12px;padding:9px 6px;text-align:center}
+.stat-n{font-size:20px;font-weight:700;color:var(--red);font-family:"Noto Serif SC",serif;line-height:1}
+.stat-l{font-size:10px;color:var(--muted);margin-top:2px}
+.route-strip{background:rgba(31,43,47,.04);border:1px solid var(--line);border-radius:9px;
+  padding:8px 11px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;flex-wrap:wrap;line-height:1.9}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
+.dot.b{background:var(--blue)}
+.arr{color:var(--line);font-size:13px}
+
+/* ── NAV ── */
+.nav{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:13px 14px}
+.nav-row{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.abtn{width:46px;height:46px;border-radius:50%;background:var(--red);color:#fff;font-size:21px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+  box-shadow:0 4px 12px rgba(159,65,39,.28);border:none;user-select:none;transition:transform .1s}
+.abtn:active{transform:scale(.9)}
+.abtn.off{background:rgba(31,43,47,.11);box-shadow:none;cursor:default}
+.ddisp{flex:1;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:13px;
+  padding:9px 12px;text-align:center;min-width:0}
+.dn{font-size:24px;font-weight:700;color:var(--red);font-family:"Noto Serif SC",serif;line-height:1}
+.ds{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-div{height:1px;background:var(--line);margin-bottom:9px}
+.mgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.mday{background:rgba(255,255,255,.65);border:1px solid var(--line);border-radius:7px;
+  padding:4px 2px;text-align:center;cursor:pointer;user-select:none;transition:.12s}
+.mday:active{transform:scale(.88)}
+.mday.on{background:var(--red);border-color:var(--red)}
+.mday.on .mn{color:#fff}.mday.on .md{color:rgba(255,255,255,.7)}
+.mn{font-size:10px;font-weight:700;color:var(--red)}
+.md{font-size:9px;color:var(--muted);margin-top:1px}
+.swh{text-align:center;font-size:10px;color:var(--muted);margin-top:7px}
+
+/* ── DAY CARD ── */
+.dc{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh);overflow:hidden;touch-action:pan-y;transition:opacity .13s}
+.dc.fade{opacity:0}
+.dc-hd{padding:14px 16px;border-bottom:1px solid var(--line)}
+.dc-meta{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap}
+.badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px}
+.dbadge{background:var(--blue-lt);color:var(--blue);font-size:11px;padding:2px 9px;border-radius:20px}
+.dc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:3px;font-family:"Noto Serif SC",serif}
+.dc-hotel{font-size:12px;color:var(--muted)}
+.dc-hotel em{color:var(--gold);font-style:normal;font-weight:500}
+
+/* theme */
+.theme{padding:11px 16px 10px;font-size:13px;color:var(--muted);display:flex;gap:7px;
+  align-items:flex-start;border-bottom:1px solid var(--line)}
+
+/* strategy */
+.strat{margin:11px 16px;background:var(--red-lt);border-left:3px solid var(--red);
+  border-radius:0 9px 9px 0;padding:9px 13px}
+.sl{font-size:10px;color:var(--red);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.st{font-size:13px;color:var(--ink);line-height:1.75}
+
+/* ── SECTION BLOCKS ── */
+.sec{padding:0 16px 14px}
+.sec-hd{display:flex;align-items:center;justify-content:space-between;
+  padding:11px 0 9px;cursor:pointer;user-select:none;border-top:1px solid var(--line)}
+.sec-title{font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:7px}
+.chev{color:var(--muted);font-size:10px;transition:transform .22s;display:inline-block}
+.chev.open{transform:rotate(180deg)}
+.sec-body{max-height:0;overflow:hidden;transition:max-height .32s ease}
+.sec-body.open{max-height:2000px}
+
+/* sight cards */
+.sight-list{display:flex;flex-direction:column;gap:7px;padding-top:2px}
+.sight{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;
+  background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:12px}
+.sight-ico{font-size:18px;flex-shrink:0;margin-top:1px}
+.sight-info{flex:1;min-width:0}
+.sight-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.sight-tip{font-size:12px;color:var(--muted);line-height:1.6}
+.map-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;
+  padding:5px 9px;background:var(--blue-lt);border:1px solid var(--blue-bd);
+  border-radius:20px;color:var(--blue);font-size:11px;text-decoration:none;white-space:nowrap;margin-top:4px}
+.map-btn:active{background:var(--blue-bd)}
+
+/* meal cards */
+.meal-list{display:flex;flex-direction:column;gap:8px;padding-top:2px}
+.meal{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.meal-top{display:flex;align-items:flex-start;gap:10px;padding:10px 12px}
+.meal-badge{flex-shrink:0;font-size:10px;font-weight:700;padding:3px 7px;border-radius:20px;margin-top:1px;white-space:nowrap}
+.mb-morn{background:rgba(198,156,77,.15);color:#8a6800}
+.mb-lunch{background:rgba(30,92,114,.1);color:var(--blue)}
+.mb-dinner{background:rgba(159,65,39,.1);color:var(--red)}
+.mb-snack{background:rgba(46,125,82,.1);color:var(--green)}
+.meal-info{flex:1;min-width:0}
+.meal-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
+.meal-type{font-size:11px;color:var(--gold);font-weight:500;margin-bottom:3px}
+.meal-tip{font-size:12px;color:var(--muted);line-height:1.6}
+.meal-map{padding:0 12px 10px;display:flex;gap:6px;flex-wrap:wrap}
+
+/* parking */
+.park-body{font-size:13px;color:var(--muted);line-height:1.75;padding-top:4px}
+
+/* ── BUDGET ── */
+.budget{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+.bud-hd{display:flex;align-items:center;justify-content:space-between;
+  padding:15px 16px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.bud-hl{font-size:15px;font-weight:700;color:var(--ink);font-family:"Noto Serif SC",serif}
+.bud-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.bud-tot{font-size:19px;font-weight:700;color:var(--red);font-family:"Noto Serif SC",serif}
+.bud-tog{font-size:11px;color:var(--muted);background:rgba(31,43,47,.06);padding:3px 9px;border-radius:20px;margin-top:3px;display:inline-block}
+.bud-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.bud-body.open{max-height:700px}
+.btbl{width:100%;border-collapse:collapse;font-size:12px}
+.btbl th{padding:7px 13px;color:var(--muted);text-align:left;font-weight:500;
+  border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
+.btbl td{padding:8px 13px;border-bottom:1px solid rgba(31,43,47,.04);color:var(--ink)}
+.btbl tr:last-child td{border-bottom:none}
+.hn{font-weight:500}.dt{color:var(--muted)}.pr{color:var(--red);font-weight:600;text-align:right}.ni{color:var(--muted);text-align:center}
+.bud-note{padding:9px 16px 13px;font-size:11px;color:var(--muted);line-height:1.6;border-top:1px solid var(--line)}
+
+.footer{text-align:center;font-size:11px;color:var(--muted);padding:4px 0 6px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-ey">2026 · 11月15日–28日 · 日本中部自驾</div>
+  <div class="hero-t">大阪进，东京出</div>
+  <div class="hero-s">关西机场取车 &rarr; 东京浅草还车</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">14</div><div class="stat-l">天行程</div></div>
+    <div class="stat"><div class="stat-n">8</div><div class="stat-l">间酒店</div></div>
+    <div class="stat"><div class="stat-n">5,695</div><div class="stat-l">MYR 估算</div></div>
+  </div>
+  <div class="route-strip">
+    <div class="dot"></div>KIX<span class="arr">›</span>岐阜<span class="arr">›</span>高山
+    <span class="arr">›</span>白川乡<span class="arr">›</span>金泽<span class="arr">›</span>长野
+    <span class="arr">›</span>雪猴<span class="arr">›</span>松本<span class="arr">›</span>箱根<span class="arr">›</span>伊豆
+    <div class="dot b"></div>东京
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-row">
+    <button class="abtn off" id="btnP" onclick="nav(-1)">&#8249;</button>
+    <div class="ddisp"><div class="dn" id="dn">D1</div><div class="ds" id="ds"></div></div>
+    <button class="abtn" id="btnN" onclick="nav(1)">&#8250;</button>
+  </div>
+  <div class="nav-div"></div>
+  <div class="mgrid" id="mg"></div>
+  <div class="swh">← 左右滑动切换天数 →</div>
+</div>
+
+<!-- DAY CARD -->
+<div class="dc" id="dc">
+  <div class="dc-hd">
+    <div class="dc-meta">
+      <span class="badge" id="cb">D1</span>
+      <span class="dbadge" id="cd"></span>
+    </div>
+    <div class="dc-title" id="ct"></div>
+    <div class="dc-hotel" id="ch"></div>
+  </div>
+  <div class="theme"><span>🎯</span><span id="cth"></span></div>
+  <div class="strat"><div class="sl">攻略重点</div><div class="st" id="cs"></div></div>
+
+  <!-- SIGHTS -->
+  <div class="sec">
+    <div class="sec-hd" onclick="tog('sights')">
+      <div class="sec-title">🗺&nbsp; 今日景点</div>
+      <span class="chev" id="chev-sights">▼</span>
+    </div>
+    <div class="sec-body" id="body-sights">
+      <div class="sight-list" id="sight-list"></div>
+    </div>
+  </div>
+
+  <!-- MEALS -->
+  <div class="sec">
+    <div class="sec-hd" onclick="tog('meals')">
+      <div class="sec-title">🍱&nbsp; 今日美食</div>
+      <span class="chev open" id="chev-meals">▼</span>
+    </div>
+    <div class="sec-body open" id="body-meals">
+      <div class="meal-list" id="meal-list"></div>
+    </div>
+  </div>
+
+  <!-- PARKING -->
+  <div class="sec">
+    <div class="sec-hd" onclick="tog('park')">
+      <div class="sec-title">🚗&nbsp; 停车 / 动线</div>
+      <span class="chev" id="chev-park">▼</span>
+    </div>
+    <div class="sec-body" id="body-park">
+      <div class="park-body" id="park-txt"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BUDGET -->
+<div class="budget">
+  <div class="bud-hd" onclick="togBud()">
+    <div><div class="bud-hl">住宿费用总表</div><div class="bud-meta">13晚 · 8间酒店 · 2位成人</div></div>
+    <div style="text-align:right">
+      <div class="bud-tot">MYR 5,695</div>
+      <div class="bud-tog" id="bl">展开明细 ▼</div>
+    </div>
+  </div>
+  <div class="bud-body" id="bb">
+    <div style="overflow-x:auto">
+      <table class="btbl">
+        <tr><th>地点 / 酒店</th><th>日期</th><th style="text-align:center">晚</th><th style="text-align:right">MYR</th></tr>
+        <tr><td class="hn">岐阜美浓 · Fairfield by Marriott</td><td class="dt">11/15</td><td class="ni">1</td><td class="pr">392 ✓</td></tr>
+        <tr><td class="hn">高山 · Hotel Around Takayama (Ascend)</td><td class="dt">11/16–18</td><td class="ni">2</td><td class="pr">1,096 ✓</td></tr>
+        <tr><td class="hn">金泽 · Hotel Vista Kanazawa</td><td class="dt">11/18–20</td><td class="ni">2</td><td class="pr">548</td></tr>
+        <tr><td class="hn">长野 · NEW NAGANO NeXT</td><td class="dt">11/20–22</td><td class="ni">2</td><td class="pr">680</td></tr>
+        <tr><td class="hn">松本 · Dormy Inn Matsumoto</td><td class="dt">11/22</td><td class="ni">1</td><td class="pr">350</td></tr>
+        <tr><td class="hn">御殿场 · Rembrandt Premium Fuji</td><td class="dt">11/23</td><td class="ni">1</td><td class="pr">705</td></tr>
+        <tr><td class="hn">伊东 · Ito Kowakien</td><td class="dt">11/24–26</td><td class="ni">2</td><td class="pr">873</td></tr>
+        <tr><td class="hn">东京浅草 · Richmond Hotel Asakusa</td><td class="dt">11/26–28</td><td class="ni">2</td><td class="pr">1,051 ✓</td></tr>
+        <tr style="background:rgba(159,65,39,.05)">
+          <td colspan="2" style="font-weight:700;color:var(--ink);padding:9px 13px">合计</td>
+          <td class="ni" style="font-weight:700;color:var(--ink)">13</td>
+          <td class="pr" style="font-size:15px">5,695</td>
+        </tr>
+      </table>
+    </div>
+    <div class="bud-note">价格为估算值（2人1房），实际结账受房型、含早与否、平台折扣及周末涨幅影响。</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div>✈ 去程：2026年11月15日 05:50 抵达 KIX &nbsp;|&nbsp; 回程：11月28日 17:25 离开 NRT</div>
+  <div style="margin-top:2px;opacity:.5">离线可用 · 点击地图跳转 Google Maps 导航</div>
+</div>
+</div>
+
+<script>
+const M="https://www.google.com/maps/search/?api=1&query=";
+const DAYS=[
+{d:1,date:"11月15日",week:"周日",drive:"KIX 取车 → 约 2小时高速 → 名古屋港水族馆 → 名古屋午餐 → 岐阜美浓",route:"关西机场取车 → 名古屋港水族馆 → 名古屋午餐 → 岐阜美浓",
+ theme:"KIX 取车 / 名古屋港水族馆（周日开放）/ 傍晚抵达岐阜美浓",hotel:"Fairfield by Marriott Gifu Mino",
+ strategy:"05:50 落地，扣掉入境＋行李＋租车接驳，约 7:30–8:00 才能上路。建议取车后先在机场吃早餐休息 30–45 分钟再出发，名古屋午餐时间（11–12点）刚好到。高速路线：关西空港道 → 阪神高速 → 名神高速 → 名古屋，大部分是笔直高速，两小时多不难开。全程记得开 ETC 车道，比人工缴费省时间。",
+ sights:[
+   {i:"✈",n:"① 关西国际机场 KIX · 抵达入境",t:"05:50 落地 → 入境审查（早班人少约 30 分钟）→ 提取行李 → 出 Arrivals 大厅。预计 07:00–07:30 完成入境。",u:M+"Kansai+International+Airport"},
+   {i:"🚗",n:"② KIX 租车取车流程",t:"出 Arrivals 后往 1F 外侧找「렌탈カー接送巴士」停车区，各家租车公司免费接驳巴士约 5–10 分钟一班。建议提前在 Toyota Rent a Car / Times Car / Nippon Rent-A-Car 官网预约，并选含 ETC 卡 + 免责险方案。取车＋办手续约 20–30 分钟。",u:M+"Toyota+Rent+a+Car+Kansai+Airport"},
+   {i:"☕",n:"③ 机场早餐休息（出发前）",t:"红眼航班落地建议不急出发。KIX 第一航站楼 2F 有星巴克和多家早餐店，休息 30–45 分钟调整状态再上路，比疲劳驾驶安全。",u:M+"Kansai+Airport+Terminal+1+Restaurant"},
+   {i:"🛣",n:"④ 高速路线：KIX → 名古屋",t:"关西空港道上高速 → 阪神高速湾岸线 → 伊勢湾岸自動車道 → 名古屋。全程约 200km，2 至 2.5 小时，过路费约 ¥3,500。走伊勢湾岸線比名神高速顺畅，周日早上路况好。",u:"https://www.google.com/maps/dir/Kansai+International+Airport/Nagoya+Station/@34.9,136.5,9z/data=!3m1!4b1"},
+   {i:"🐬",n:"⑤ 名古屋港水族馆",t:"09:30 开馆，日本规模最大水族馆之一。虎鲸（シャチ）和宽吻海豚表演是招牌，南馆企鹅和北馆海豚池各有特色。建议游览 2–2.5 小时。门票大人 ¥2,030，停车场约 ¥600/小时。⚠️ 周一公休，D1（周日）去是唯一机会。",u:M+"名古屋港水族館"},
+   {i:"🍽",n:"⑥ 名古屋市区午餐",t:"水族馆在名古屋港，开车约 20 分钟到荣或名古屋站。午餐后继续出发岐阜美浓，全程约 40 分钟。",u:M+"Nagoya+Station+Parking"},
+   {i:"🏨",n:"⑦ Fairfield by Marriott Gifu Mino",t:"名古屋出发约 40 分钟即到岐阜美浓。今晚落脚点，酒店有停车场，直接停入不用再找车位。",u:M+"Fairfield+by+Marriott+Gifu+Mino"}
+ ],
+ meals:[
+   {t:"早",n:"KIX 机场 · 星巴克或便利店",ty:"机场早餐",tip:"出发前在机场简单吃，调整状态比空腹开车安全。第一航站楼 2F 有星巴克、Family Mart 及多家早餐店，7–8 点已全部开门。",u:M+"Kansai+Airport+Terminal+1+Starbucks"},
+   {t:"午",n:"蓬莱軒 松坂屋店",ty:"名古屋鳗鱼饭 (ひつまぶし)",tip:"名古屋鳗鱼饭始祖，三吃方式：先直接吃、再加葱芥末、最后加出汁泡饭。11点开门建议即到，否则排队等位。",u:M+"蓬莱軒+松坂屋名古屋店"},
+   {t:"午",n:"矢場とん 本店",ty:"味噌猪排 (みそかつ)",tip:"若蓬莱軒等位太久可改矢场とん，名古屋味噌猪排代表，味噌酱浓郁配白饭，价格亲民约 ¥1,500。",u:M+"矢場とん+本店+名古屋"},
+   {t:"晚",n:"岐阜美浓 · 酒店周边便利店",ty:"轻食",tip:"第一天不建议折腾晚餐，便利店或 Family Mart 解决即可。日本便利店便当水准不低，留体力早休息。",u:M+"Family+Mart+Gifu+Mino"}
+ ],
+ parking:"KIX 租车公司停车场免费（取车时算在租金内）。名古屋午餐停名古屋站 Meitetsu 地下停车场，首 2 小时有优惠，够用了。岐阜美浓酒店有免费停车场，直接入住不用另找。全程建议使用 ETC 卡过收费站，比人工缴费省 10–30% 且不用备零钱。"},
+
+{d:2,date:"11月16日",week:"周一",drive:"轻松缓冲日",route:"岐阜美浓 → 名古屋 → 高山",
+ theme:"城市日 / 名古屋半日 / 傍晚转高山",hotel:"Hotel Around Takayama, Ascend Hotel Collection（第1晚）",
+ strategy:"名古屋这天的角色是「补一个城市感」，不是主战场。建议挑 1–2 个点，下午就收线，晚上把重心切去高山。荣和热田神宫是最顺的两个选择。",
+ sights:[
+   {i:"⛩",n:"热田神宫",t:"日本三大神宫之一，供奉天丛云剑，绿意幽深。早上参拜最安静，约1小时。",u:M+"Atsuta+Jingu"},
+   {i:"🏙",n:"荣（栄）商圈",t:"名古屋最热闹的购买和餐饮区，松坂屋、大名古屋楼都在这里。",u:M+"Sakae+Nagoya"},
+   {i:"🏯",n:"名古屋城（可选）",t:"若时间充裕可顺访，金鯱天守阁标志性，约1.5小时。否则略过直奔高山。",u:M+"Nagoya+Castle"},
+   {i:"🏨",n:"Hotel Around Takayama, Ascend Hotel Collection",t:"今晚入住高山市区，步行可到老街。",u:M+"Hotel+Around+Takayama"}
+ ],
+ meals:[
+   {t:"早",n:"酒店早餐或便利店",ty:"轻食",tip:"简单解决即可，留胃迎接名古屋午餐。",u:M+"Fairfield+by+Marriott+Gifu+Mino"},
+   {t:"午",n:"世界の山ちゃん 本店",ty:"名古屋手羽先 (鸡翅)",tip:"名古屋名物炸鸡翅，椒盐风味酥脆，下午茶或午餐都合适。本店在荣附近。",u:M+"世界の山ちゃん+本店+名古屋"},
+   {t:"午",n:"コメダ珈琲 (Komeda Coffee)",ty:"名古屋晨间文化 Morning",tip:"名古屋喫茶 Morning 文化：点咖啡自动附赠厚吐司+水煮蛋，本地体验满分。",u:M+"Komeda+Coffee+Nagoya"},
+   {t:"晚",n:"高山ラーメン · 豆天狗",ty:"高山拉面",tip:"高山清淡酱油拉面，配叉烧和麦饭，是飞驒地区特色。入住后步行即到。",u:M+"豆天狗+高山"}
+ ],
+ parking:"名古屋热田神宫有专属停车场（免费）；荣商圈建议停松坂屋或三越地下停车场；傍晚前务必出发，避免夜间山路进高山。"},
+
+{d:3,date:"11月17日",week:"周二",drive:"步行日",route:"高山整天",
+ theme:"老街步行日 / 飞驒牛 / 最适合拍照",hotel:"Hotel Around Takayama, Ascend Hotel Collection（第2晚）",
+ strategy:"高山最值钱的是「步行感」和慢慢逛，不是跑数量。住市区后这天终于可以按正确方式玩高山，建议全天步行不开车。",
+ sights:[
+   {i:"🌅",n:"宫川朝市",t:"每天早上6点–12点，沿宫川摆摊，卖蔬菜、腌物、飞驒牛串等。建议8点前到人不多。",u:M+"Miyagawa+Morning+Market+Takayama"},
+   {i:"🏘",n:"上三之町（さんまち）老街",t:"飞驒最经典的江户时代老街，酒造、漆器、小吃全在这。建议上午逛完，下午人多。",u:M+"Sanmachi+Suji+Takayama"},
+   {i:"🏛",n:"高山陣屋",t:"江户幕府时代的行政机构，全日本唯一保存完整的陣屋，约1小时。门票440円。",u:M+"Takayama+Jinya"},
+   {i:"🍶",n:"原田酒造（老田屋）",t:"高山三座老酒造之一，可试饮清酒，买手信。",u:M+"老田酒造店+高山"}
+ ],
+ meals:[
+   {t:"早",n:"宫川朝市 · 飞驒牛串烧",ty:"飞驒牛串 (飛騨牛串焼き)",tip:"朝市现烤飞驒牛串，边走边吃。每串约500–800円，是高山最有现场感的早餐体验。",u:M+"Miyagawa+Morning+Market+Takayama"},
+   {t:"午",n:"桔梗屋 高山店",ty:"飞驒牛握寿司 (飛騨牛にぎり)",tip:"老街内人气最高的飞驒牛握寿司店，2–3贯现点现握，站着吃，性价比高。",u:M+"桔梗屋+高山"},
+   {t:"午",n:"飛騨牛コロッケ（路边摊）",ty:"飞驒牛可乐饼",tip:"老街边摊现炸飞驒牛可乐饼，约200–300円，逛街边吃超满足。",u:M+"飛騨牛コロッケ+高山"},
+   {t:"晚",n:"角正 (Kakusho)",ty:"飞驒乡土料理",tip:"高山老字号割烹，主打朴叶味噌、飞驒牛会席，价格稍高但体验完整。建议提前预约。",u:M+"角正+高山"},
+   {t:"小食",n:"高山布丁 · 坂口屋",ty:"高山布丁 (飛騨プリン)",tip:"高山名物布丁，浓郁奶香配焦糖，老街内必买小吃。",u:M+"坂口屋+高山"}
+ ],
+ parking:"今天全程步行，不需要开车。酒店停车场全天停放即可。"},
+
+{d:4,date:"11月18日",week:"周三",drive:"约 3.5–4 小时（含白川乡游览）",route:"高山 → 白川乡（日游）→ 金泽",
+ theme:"世界遗产日游 / 上午早到避人潮 / 傍晚进金泽",hotel:"Hotel Vista Kanazawa（第1晚）",
+ strategy:"白川乡日游的关键是早到，8:30 从高山出发约 1 小时到村口，在游客大量涌入前已经走完合掌村和展望台。中午后出发往金泽，下午抵达正好逛近江町市场和茶屋街。无需夜宿省下一晚高价温泉旅馆。",
+ sights:[
+   {i:"🚗",n:"高山 → 白川乡（早出发）",t:"建议 8:30–9:00 从高山出发，走国道156号约 1 小时到白川乡。早到可赶在游客大巴涌入前独享村落安静。",u:M+"Shirakawa-go"},
+   {i:"🏘",n:"荻町合掌集落",t:"白川乡核心区，茅草屋顶合掌造民居群。步行绕村约 1–1.5 小时，上午光线和人流都最理想。",u:M+"Shirakawa-go+Ogimachi"},
+   {i:"🗻",n:"荻町城迹展望台",t:"俯瞰整个合掌村全景，步行约 20 分钟或搭接驳车。上午光线最佳，下午容易逆光。",u:M+"Ogimachi+Castle+Observation+Deck"},
+   {i:"⛩",n:"白川八幡神社",t:"村内小神社，安静氛围与合掌村融合极好，村落散步时顺道参拜。",u:M+"Shirakawago+Hachiman+Shrine"},
+   {i:"🐟",n:"近江町市场（金泽抵达后）",t:"下午 3–4 点抵达金泽，近江町市场仍开着，可顺手看看并安排晚餐方向。",u:M+"Omicho+Market+Kanazawa"},
+   {i:"🏮",n:"东茶屋街（金泽傍晚）",t:"傍晚灯笼亮起后茶屋街最有气氛，入住酒店后步行或短程计程车即达。",u:M+"Higashi+Chaya+District+Kanazawa"},
+   {i:"🏨",n:"Hotel Vista Kanazawa",t:"今晚起住金泽 2 晚，酒店位置适中，步行或短程计程车可到各主要景点。",u:M+"Hotel+Vista+Kanazawa"}
+ ],
+ meals:[
+   {t:"午",n:"白川乡 · 合掌の里食事处",ty:"朴叶味噌定食",tip:"白川乡村内餐厅，朴叶味噌配白饭，飞驒乡土风味。建议 11 点前后吃，午后人潮多等位久。",u:M+"合掌の里+白川郷"},
+   {t:"小食",n:"五平餅 · 村内路边摊",ty:"五平饼",tip:"米粒捣打后串烤抹味噌，约 200円，白川乡村内常见小吃，边走边吃。",u:M+"五平餅+白川郷"},
+   {t:"晚",n:"金泽 · 近江町市场周边",ty:"加贺料理 / 海鲜丼",tip:"傍晚抵达金泽后在近江町市场或东茶屋街附近找晚餐，治部煮或海鲜丼都是金泽首选。",u:M+"加賀料理+金沢+東茶屋街"}
+ ],
+ parking:"白川乡有指定收费停车场（约 500–1000円），步行进村参观。金泽入住酒店后把车停着不动，晚上步行或计程车解决。"},
+
+{d:5,date:"11月19日",week:"周四",drive:"城市慢游日",route:"金泽整天",
+ theme:"兼六园 / 金泽城 / 茶屋街收尾",hotel:"Hotel Vista Kanazawa（第2晚）",
+ strategy:"金泽是这趟最适合「慢下来」的城市，11月下旬兼六园的雪吊初现，配深秋园景极美。今天不要开车，全程步行或公车。",
+ sights:[
+   {i:"🌿",n:"兼六园",t:"日本三大名园之一，11月下旬开始挂「雪吊」（防雪绳绑），是秋末特有景观。建议早上8点开园即入，人少光线好。门票320円。",u:M+"Kenrokuen+Kanazawa"},
+   {i:"🏯",n:"金泽城公园",t:"与兼六园相邻，免费入园。石川门、三十间长屋保存完整，与兼六园串联步行最顺。",u:M+"Kanazawa+Castle+Park"},
+   {i:"🏮",n:"主计町茶屋街",t:"比东茶屋街更小众安静，沿浅野川而建，白天无人夜晚灯光迷人，和东茶屋街形成互补。",u:M+"Kazuemachi+Chaya+District"},
+   {i:"🐟",n:"近江町市场（再访）",t:"昨天未吃够可再来，今天可以从容地逛市场、买螃蟹零食。",u:M+"Omicho+Market+Kanazawa"}
+ ],
+ meals:[
+   {t:"早",n:"酒店早餐或近江町市场",ty:"海鲜早餐",tip:"早市7–8点已开，在市场喝味噌汤配海鲜是最地道的金泽早餐体验。",u:M+"Omicho+Market+Kanazawa"},
+   {t:"午",n:"Gold Curry (ゴーゴーカレー)",ty:"金泽咖喱",tip:"金泽B级美食代表，浓稠黑咖喱配炸猪排，全国连锁起源于金泽，价格实惠。",u:M+"ゴーゴーカレー+金沢"},
+   {t:"午",n:"8番らーめん",ty:"金泽拉面",tip:"北陆地区超人气连锁拉面，以野菜拉面为招牌，汤底浓郁，价格亲民。",u:M+"8番らーめん+金沢"},
+   {t:"晚",n:"いたる 本店",ty:"炉端烧 / 加贺料理",tip:"金泽居酒屋名店，北陆海鲜烤物、地酒配当季食材，性价比高，建议提前预约。",u:M+"いたる+本店+金沢"},
+   {t:"小食",n:"辻口博啓美術館 · Le Musée de H",ty:"法式甜点 × 金箔",tip:"金泽甜品名店，以金箔装饰蛋糕和马卡龙著称，配下午茶氛围极佳。",u:M+"Le+Musée+de+H+金沢"}
+ ],
+ parking:"今天全程不开车，兼六园–金泽城–主计町可全部步行串联。酒店停车场全天停放。"},
+
+{d:6,date:"11月20日",week:"周五",drive:"约 3.5–4 小时含顺停",route:"金泽 → 小布施 → 长野",
+ theme:"栗子老街 / 北斋馆 / 傍晚善光寺",hotel:"NEW NAGANO NeXT（第1晚）",
+ strategy:"小布施是「小而美」的顺路精华，栗子甜点和北斋浮世绘是两大主轴。建议在小布施停留1.5–2小时，傍晚进长野市区再看善光寺晚秋氛围。",
+ sights:[
+   {i:"🌰",n:"小布施 · 北斋馆",t:"收藏葛饰北斋晚年杰作的美术馆，连天花板都有北斋画作，必看。门票1000円。",u:M+"北斎館+小布施"},
+   {i:"🏘",n:"小布施 · 北斋馆周边老街",t:"馆周边步行街有多家栗子甜点店、地酒和蔵造建筑，漫步约1小时。",u:M+"Obuse+Old+Town"},
+   {i:"⛩",n:"善光寺",t:"长野地标，无宗派寺院，参道两侧灯笼与银杏在11月下旬尚有余叶。傍晚气氛幽静。",u:M+"Zenkoji+Temple+Nagano"},
+   {i:"🏨",n:"NEW NAGANO NeXT",t:"长野站附近新酒店，位置佳，方便明天出发雪猴公苑。",u:M+"NEW+NAGANO+NeXT"}
+ ],
+ meals:[
+   {t:"午",n:"竹風堂 小布施本店",ty:"栗子套餐 (栗おこわ定食)",tip:"小布施最老字号栗子料理铺，栗おこわ（栗糯米饭）是招牌，配山菜和味噌汤，朴实好吃。",u:M+"竹風堂+小布施+本店"},
+   {t:"小食",n:"桜井甘精堂 泉石亭",ty:"栗子甜点",tip:"栗子羊羹、栗子饼、栗子冰淇淋，小布施甜点名店，边走边买一样即可。",u:M+"桜井甘精堂+小布施"},
+   {t:"晚",n:"藤木庵",ty:"信州荞麦面 (信州そば)",tip:"长野车站附近的信州荞麦面老铺，手打二八荞麦，配天妇罗或鸭肉，是长野最经典的晚餐。",u:M+"藤木庵+長野"},
+   {t:"小食",n:"善光寺门前 · 七味唐辛子",ty:"长野名物 · 八幡屋礒五郎",tip:"善光寺参道旁的七味粉名店，可以调配自己专属七味，是长野代表伴手礼。",u:M+"八幡屋礒五郎+長野"}
+ ],
+ parking:"小布施有专属公共停车场（免费或低价），步行进老街最方便。长野市区建议停酒店不动，善光寺可步行或搭公车前往。"},
+
+{d:7,date:"11月21日",week:"周六",drive:"雪猴主日（来回约2小时）",route:"长野 → 地狱谷野猿公苑 → 长野",
+ theme:"雪猴泡温泉 / 轻松往返 / 节奏最松",hotel:"NEW NAGANO NeXT（第2晚）",
+ strategy:"长野多住一晚后，今天终于变成真正舒服的雪猴日。专心去看猴子，不用担心后面要赶路。雪猴在寒冷天气更活跃，建议早出发。",
+ sights:[
+   {i:"🐒",n:"地狱谷野猿公苑",t:"全球唯一会泡温泉的野生猴群。停车场步行进园约30分钟，园内观猿约1–1.5小时。11月气温低猴子更爱泡汤。门票800円。",u:M+"Jigokudani+Yaen+Koen"},
+   {i:"🌿",n:"上林温泉街（公苑停车场周边）",t:"停车场附近有几家温泉旅馆和简单食堂，看完猴子可在此小歇。",u:M+"Kanbayashi+Onsen"},
+   {i:"⛩",n:"善光寺（下午补游）",t:"昨天若未细逛，今天回长野后有时间可再访，参道两侧银杏和商店街值得慢走。",u:M+"Zenkoji+Temple+Nagano"}
+ ],
+ meals:[
+   {t:"早",n:"长野 · おやき村 or 酒店附近",ty:"野沢菜おやき",tip:"長野代表性早点，面皮包野泽菜或豆沙，铁板烤或蒸，善光寺门前和车站均有售，约200円。",u:M+"おやき+長野駅"},
+   {t:"午",n:"地狱谷周边 · 上林食堂（简餐）",ty:"山间简餐",tip:"公苑停车场附近有简单食堂，味增汤定食或山菜荞麦面，不期望美食但实用。",u:M+"Kanbayashi+Onsen+Restaurant"},
+   {t:"晚",n:"そばの実 よこ田",ty:"信州荞麦面",tip:"长野市区高评价荞麦面店，手打十割荞麦，配鸭肉或海老天妇罗，晚餐首选。",u:M+"そばの実よこ田+長野"},
+   {t:"小食",n:"信州りんご菓子 · 各店",ty:"信州苹果甜点",tip:"长野是日本苹果产地，苹果派、苹果冰淇淋在车站和善光寺周边均有售，买来路上吃。",u:M+"信州りんご+長野駅"}
+ ],
+ parking:"雪猴公苑有专属停车场（约500円），停车后必须步行约30分钟进园，无法开车进入。"},
+
+{d:8,date:"11月22日",week:"周日",drive:"约 2–2.5 小时（含奈良井宿游览）",route:"长野 → 奈良井宿 → 松本",
+ theme:"江户宿场町 / 奈良井宿漫步 / 松本过夜",hotel:"Dormy Inn Matsumoto",
+ strategy:"奈良井宿是中山道上保存最完整的宿场町，整条街都像江户时代原装。停留1.5小时刚刚好，逛完再开车45分钟到松本。下午在松本城周边随意走走，傍晚松本老城区居酒屋收尾。",
+ sights:[
+   {i:"🏘",n:"奈良井宿",t:"中山道六十九次宿场中保存最完整的街道，约1公里长的江户建筑群完整保留。建议10–11点到，人流尚少，拍照最理想。",u:M+"Narai-juku"},
+   {i:"⛩",n:"鎮神社（奈良井宿内）",t:"奈良井宿正中心的小神社，宿场町氛围的点睛之笔，参道旁漆器和木工艺品店云集。",u:M+"Chinkoku+Shrine+Naraijuku"},
+   {i:"🏯",n:"松本城（傍晚顺游）",t:"日本现存12天守之一，黑色外壁壮观，下午光线充足适合拍照。若今天时间不够，明早开门入城亦可。停车场在城周边。",u:M+"Matsumoto+Castle"},
+   {i:"🍶",n:"松本市区老街 · 中町通り",t:"松本的蔵造建筑商店街，漆器、味噌、地酒和咖啡馆连成一线，适合傍晚散步。",u:M+"Nakamachi+Street+Matsumoto"},
+   {i:"🏨",n:"Dormy Inn Matsumoto",t:"松本市区商务酒店，Dormy Inn 品牌以大浴场闻名，地理位置好，步行可到松本城和中町通り。",u:M+"Dormy+Inn+Matsumoto"}
+ ],
+ meals:[
+   {t:"早",n:"长野 · 酒店早餐或おやき",ty:"简单早餐",tip:"出发前在长野简单吃，奈良井宿约10点到最理想，不要因为早餐耽误出发时间。",u:M+"NEW+NAGANO+NeXT"},
+   {t:"午",n:"奈良井宿 · 藤屋",ty:"山菜荞麦面 / 朴叶寿司",tip:"宿场町内老铺，山菜荞麦面和朴叶寿司是当地特色，价格实惠，在古街用餐氛围满分。",u:M+"藤屋+奈良井宿"},
+   {t:"小食",n:"奈良井宿 · 漆器 / 木梳伴手礼",ty:"木曾漆器采购",tip:"奈良井宿以漆器和木曾桧木制品闻名，价格比东京便宜，是购买精致伴手礼的好机会。",u:M+"Naraijuku+lacquerware"},
+   {t:"晚",n:"松本 · 三城 (みしろ)",ty:"信州马肉料理 (馬刺し)",tip:"长野松本是日本少数有马肉刺身文化的地区，馬刺し（生马肉）配大蒜酱油，体验感十足，松本市区有多家专门店。",u:M+"馬刺し+松本"},
+   {t:"晚",n:"松本 · 女鳥羽そば（めとりば）",ty:"松本荞麦面",tip:"松本城附近高评价荞麦面店，手打荞麦麦香浓，若不想吃马肉可来这里。",u:M+"女鳥羽そば+松本"}
+ ],
+ parking:"奈良井宿有免费停车场在入口处，步行进宿场町。松本 Dormy Inn 附近有停车场（收费），停好不动，傍晚步行逛中町和松本城。"},
+
+{d:9,date:"11月23日",week:"周一",drive:"约 3.5–4.5 小时（松本→箱根→御殿场）",route:"松本城 → 箱根精选 → 御殿场",
+ theme:"松本城晨游 / 芦之湖 · 箱根神社 / 御殿场入住",hotel:"Rembrandt Premium Fuji Gotemba",
+ strategy:"从松本出发，松本城早开门可抓清晨最美的光线，然后全力南下进箱根。箱根精选「芦之湖+箱根神社」这条线比大涌谷更适合自驾绕，景色也更沉静。大涌谷留给明天从御殿场出发时顺路经过。",
+ sights:[
+   {i:"🏯",n:"松本城（早晨入城）",t:"开馆时间8:30，建议入城前先在城外拍外景，黑色天守配清晨光线极美。游览约1–1.5小时，门票700円。",u:M+"Matsumoto+Castle"},
+   {i:"⛵",n:"芦之湖 · 箱根神社",t:"水中鸟居配富士山背景是箱根标志构图，11月湖面如镜，气氛极佳。箱根神社参拜后可沿湖边步道走15分钟。",u:M+"Hakone+Shrine"},
+   {i:"🚧",n:"箱根關所（顺访）",t:"芦之湖边的江户时代检问所复原，与箱根神社串联步行可到，约30–45分钟。",u:M+"Hakone+Sekisho"},
+   {i:"🏨",n:"Rembrandt Premium Fuji Gotemba",t:"御殿场晚间落脚，富士山景观酒店，运气好次日清晨可见富士山全景。",u:M+"Rembrandt+Premium+Fuji+Gotemba"}
+ ],
+ meals:[
+   {t:"早",n:"松本 · Dormy Inn 早餐或松本站便利店",ty:"出发前轻食",tip:"Dormy Inn 早餐通常含日式和西式选项，也可带便利店饭团上路，今天行程较长建议吃饱出发。",u:M+"Dormy+Inn+Matsumoto"},
+   {t:"午",n:"箱根 · 芦之湖周边餐厅",ty:"箱根乡土料理 / 山菜定食",tip:"芦之湖周边多家餐厅提供箱根乡土料理，山菜定食和当地豆腐料理都是选择，湖景用餐加分。",u:M+"Hakone+Ashinoko+Restaurant"},
+   {t:"晚",n:"御殿场 · 炭焼きレストランさわやか",ty:"静冈汉堡排 (げんこつハンバーグ)",tip:"静冈超人气汉堡排专门店，げんこつ（拳头）形状的多汁牛肉饼，桌边切开淋酱仪式感十足。等位可能1–2小时，建议抵达御殿场后先取号。",u:M+"さわやか+御殿場"}
+ ],
+ parking:"松本城有收费停车场；箱根芦之湖周边有停车场（旺季建议早到）；御殿场酒店有停车场。箱根进山部分路段跟着导航走国道，避开需要缆车的路段。"},
+
+{d:10,date:"11月24日",week:"周二",drive:"约 3–4 小时含顺停",route:"御殿场 → 大涌谷 → 三岛天空步道 → 伊东",
+ theme:"大涌谷硫磺地 / 三岛天空步道 / 伊东温泉入住",hotel:"Ito Kowakien（第1晚）",
+ strategy:"这天的节奏是「精准景点」，不是硬冲全程。大涌谷和天空步道都是进出快、视觉感强的点，组合起来刚好。进伊东后认真泡个温泉，正式开启伊豆放松模式。",
+ sights:[
+   {i:"🌋",n:"大涌谷",t:"箱根最大硫磺喷气地，活火山景观震撼。注意当日火山指数，开放时限定销售黑玉子（硫磺温泉蛋）。从御殿场上箱根约30分钟。",u:M+"Owakudani+Hakone"},
+   {i:"🌉",n:"三岛天空步道",t:"全长400米、高70米的吊桥，天气好时正面对富士山，是伊豆自驾必停打卡点。约1–1.5小时。门票1100円。",u:M+"Mishima+Skywalk"},
+   {i:"♨",n:"伊东温泉街",t:"抵达伊东后可步行逛温泉街，足汤免费开放，是进入伊豆放松模式的转换点。",u:M+"Ito+Onsen"},
+   {i:"🏨",n:"Ito Kowakien",t:"伊东温泉旅馆，大浴场和露天风吕，含晚餐。进入伊豆放松段的最佳据点。",u:M+"Ito+Kowakien"}
+ ],
+ meals:[
+   {t:"早",n:"御殿场 · 酒店早餐",ty:"酒店自助或日式早餐",tip:"Rembrandt 酒店早餐通常有不错的自助，今天移动较多建议吃饱。",u:M+"Rembrandt+Premium+Fuji+Gotemba"},
+   {t:"小食",n:"大涌谷 · 黒玉子",ty:"硫磺温泉黑蛋",tip:"传说每吃一个延寿7年。大涌谷开放时限定销售，约500円/5颗。",u:M+"Owakudani+Black+Egg"},
+   {t:"午",n:"三岛 · 桜家 (さくらや)",ty:"鳗鱼饭 (うなじゅう)",tip:"三岛鳗鱼是静冈名物，桜家是三岛最有名的鳗鱼饭老铺，建议天空步道后绕道去吃。需预约或早去排队。",u:M+"桜家+三島"},
+   {t:"晚",n:"Ito Kowakien · 旅馆晚餐",ty:"伊豆海鲜会席",tip:"旅馆含晚餐，金目鯛（金眼鲷）是伊东特产，会席料理地方食材丰富，就地解决。",u:M+"Ito+Kowakien"}
+ ],
+ parking:"大涌谷有专属停车场（旺季可能需要提前确认开放状况）；三岛天空步道有免费大型停车场；伊东温泉街停车场较多，旅馆通常有专属停车。"},
+
+{d:11,date:"11月25日",week:"周三",drive:"伊豆整天",route:"伊东 / 伊豆",
+ theme:"大室山 / 城崎海岸 / 温泉放松",hotel:"Ito Kowakien（第2晚）",
+ strategy:"伊豆这天不要做成「景点清单」。排 1–2 个重点就够了，剩下的时间留给泡汤和慢慢吃饭。天气好选大室山+城崎海岸，喜欢动物选仙人掌动物公园。",
+ sights:[
+   {i:"🌋",n:"大室山",t:"伊豆最壮观的单体火山，山顶缆车360度展望，可眺望富士山和伊豆群岛。缆车票700円，约1小时。",u:M+"Mount+Omuro+Izu"},
+   {i:"🌊",n:"城崎海岸吊桥",t:"火山熔岩形成的海岸绝景，门户岛吊桥全长48米，脚下是汹涌太平洋。约1.5小时。",u:M+"Jogasaki+Coast"},
+   {i:"🦏",n:"伊豆仙人掌动物公园（可替换）",t:"可爱动物园，水豚温泉是冬季名物，还有水豚、羊驼和巨大仙人掌。与大室山二选一。",u:M+"Izu+Shaboten+Zoo"},
+   {i:"♨",n:"伊东 · Ito Kowakien 温泉",t:"今天下午务必留时间泡大浴场或露天风吕，伊东温泉水质好，放松是今天的主题。",u:M+"Ito+Kowakien"}
+ ],
+ meals:[
+   {t:"早",n:"Ito Kowakien · 旅馆早餐",ty:"和式朝食",tip:"旅馆含早餐，新鲜鱼料理配白饭味噌汤，伊豆式朝食体验。",u:M+"Ito+Kowakien"},
+   {t:"午",n:"城崎海岸 · 門脇埼灯台周边",ty:"海鲜定食",tip:"城崎海岸周边有简单海鲜食堂，烤鱼定食或海鲜丼，价格适中风景好。",u:M+"Jogasaki+Coast+Restaurant"},
+   {t:"晚",n:"伊东 · 金目鯛しゃぶしゃぶ",ty:"金眼鲷涮涮锅",tip:"金目鯛（金眼鲷）是伊东最具代表性的食材，涮锅方式最能体现鱼肉甜嫩，伊东车站周边多家专门店。",u:M+"金目鯛+しゃぶしゃぶ+伊東"},
+   {t:"小食",n:"伊东 · わさびソフト",ty:"山葵冰淇淋",tip:"伊豆是日本山葵产地，山葵软冰淇淋绿色刺激感偏淡，甜中带辣，当地特色必试。",u:M+"わさびソフト+伊豆"}
+ ],
+ parking:"大室山有免费大停车场；城崎海岸有付费停车场约300円/小时；今天行程集中在伊豆高原一带，一次停好再步行。"},
+
+{d:12,date:"11月26日",week:"周四",drive:"约 2.5–3 小时车程",route:"伊豆 → 东京浅草（还车）",
+ theme:"还车日 / 浅草夜景 / 切换公共交通",hotel:"Richmond Hotel Asakusa（第1晚）",
+ strategy:"今天完成自驾段最后一程，还车后正式切换城市模式。浅草今晚可以轻松逛雷门和仲见世，不需要赶行程。",
+ sights:[
+   {i:"⛩",n:"雷門 (かみなりもん)",t:"浅草地标，巨型红灯笼是东京最著名的拍照点，傍晚和夜晚灯光最美。",u:M+"Kaminarimon+Asakusa"},
+   {i:"🏮",n:"仲见世商店街",t:"雷门至浅草寺参道，200多间老铺，人形烧、雷おこし、草履等传统伴手礼云集。",u:M+"Nakamise+Shopping+Street+Asakusa"},
+   {i:"🌉",n:"隅田川沿岸 / 吾妻桥",t:"夜晚从吾妻桥望向朝日啤酒大厦和晴空塔，是浅草夜景标志构图。步行即到。",u:M+"Azumabashi+Bridge+Asakusa"},
+   {i:"🏨",n:"Richmond Hotel Asakusa",t:"今晚入住浅草，步行可达雷门和仲见世。明天地铁切换全靠这里为基地。",u:M+"Richmond+Hotel+Asakusa"}
+ ],
+ meals:[
+   {t:"午",n:"服务区（东名高速）",ty:"高速服务区美食",tip:"东名高速各服务区有不错的拉面、猪排等，中途吃饱再进东京。",u:M+"東名高速+サービスエリア"},
+   {t:"晚",n:"天丼 大黒屋 本店",ty:"浅草天丼",tip:"创业1887年浅草天丼元祖，酱汁浓郁配大虾天妇罗，人气极高需排队。价格约1500円。",u:M+"大黒屋+天丼+浅草+本店"},
+   {t:"晚",n:"今半 本店（国際通り）",ty:"浅草寿喜烧",tip:"浅草百年寿喜烧老铺，和牛与豆腐蔬菜在铸铁锅里慢煮，配生蛋液，东京老味道。价格较高需预约。",u:M+"今半+浅草+本店"},
+   {t:"小食",n:"人形焼 · 仲见世各店",ty:"人形烧 (にんぎょうやき)",tip:"浅草寺造型的铜锣烧式甜点，仲见世商店街现烤现卖，约200円，边逛边吃。",u:M+"人形焼+仲見世"}
+ ],
+ parking:"还车后不再需要停车。浅草区域全程步行和地铁，请勿在东京市区开车。"},
+
+{d:13,date:"11月27日",week:"周五",drive:"东京整天",route:"东京自由行",
+ theme:"浅草寺 / 上野 / 六义园夜枫可选",hotel:"Richmond Hotel Asakusa（第2晚）",
+ strategy:"最后一天东京建议只选一种气质：传统浅草上野线，或晚秋庭园/银杏线。不要两边都硬塞，选一条线走深走慢。",
+ sights:[
+   {i:"⛩",n:"浅草寺",t:"东京最古老寺院（628年），五重塔、宝藏门和本堂是核心。清晨参拜安静，是最适合拍照的时间。",u:M+"Senso-ji+Asakusa"},
+   {i:"🍳",n:"合羽桥道具街",t:"厨师设备、食品模型、陶瓷餐具的专门批发街，对料理有兴趣必逛，买刀具或餐具性价比极高。",u:M+"Kappabashi+Dougu+Street"},
+   {i:"🛍",n:"阿美横町 (アメ横)",t:"上野车站旁的露天市集，衣服、干货、零食、便宜海鲜应有尽有，是东京最有市井气的地方。",u:M+"Ameya-Yokocho+Ueno"},
+   {i:"🍁",n:"六义园 · 秋天夜间特别开放（可选）",t:"11月下旬至12月初六义园夜间开园（点灯），枫叶红叶映水面，东京最美庭园秋色。需确认当年开放日期。",u:M+"Rikugien+Garden+Tokyo"}
+ ],
+ meals:[
+   {t:"早",n:"浅草 · 亀十 (かめじゅう)",ty:"铜锣烧",tip:"浅草最老铜锣烧名店，手工现做、皮厚柔软、豆沙甜而不腻，早上大排长龙。约250円/个。",u:M+"亀十+浅草"},
+   {t:"午",n:"合羽桥周边 · 洋食店",ty:"东京洋食 (ハンバーグ / オムライス)",tip:"合羽桥一带有不少老洋食馆，汉堡排或蛋包饭是代表，价格实惠适合午餐。",u:M+"洋食+合羽橋"},
+   {t:"晚",n:"駒形どぜう",ty:"泥鳅锅 (どじょう鍋)",tip:"1801年创业浅草老铺，泥鳅锅是江户名物，锅底葱花配柚子味噌，东京最有历史感的晚餐之一。",u:M+"駒形どぜう+浅草"},
+   {t:"小食",n:"浅草 · メロンパン (哈密瓜包)",ty:"现烤哈密瓜包",tip:"浅草仲见世边有现烤哈密瓜包摊，外脆内软，逛街必吃小吃。约200円。",u:M+"メロンパン+浅草"},
+   {t:"小食",n:"上野 · 精養軒",ty:"老洋食 / 咖啡",tip:"上野公园内1872年创业老餐厅，下午茶配洋食，东京历史最悠久的西洋料理店。",u:M+"上野精養軒"}
+ ],
+ parking:"今天全程地铁和步行，不涉及驾车。Suica/PASMO卡刷卡最方便。"},
+
+{d:14,date:"11月28日",week:"周六",drive:"返程日",route:"东京 → 成田机场 → 吉隆坡",
+ theme:"返程 / Skyliner 直达成田 / 提早3小时到机场",hotel:"✈ 17:25 NRT 起飞",
+ strategy:"最后一天不要塞景点。国际线加行李托运和退税时间会比想象中长，建议至少提早3小时到成田。住浅草搭 Skyliner 是最直接的选择。",
+ sights:[
+   {i:"🚉",n:"京成上野站 → Skyliner → 成田机场",t:"浅草→上野步行或地铁约10分钟，Skyliner 全程约41分钟直达成田，票价2520円。是从浅草/上野去成田最快方式。",u:M+"Ueno+Station+Keisei"},
+   {i:"🛍",n:"成田机场免税店",t:"退税和机场购物预留至少1小时，尤其是大型电器、化妆品、酒类免税区集中在出境后。",u:M+"Narita+International+Airport"}
+ ],
+ meals:[
+   {t:"早",n:"浅草 · 浅草珈琲或酒店早餐",ty:"轻食早餐",tip:"今天早餐在浅草简单解决，不要安排需要等位的餐厅，以准时出发为第一优先。",u:M+"浅草+カフェ+モーニング"},
+   {t:"午",n:"成田机场 · 第一航站楼餐厅",ty:"出发前最后一餐",tip:"成田机场第一航站楼出境后有拉面、寿司、定食多种选择，提早到达可在机场从容用餐。",u:M+"Narita+Airport+Terminal+1+Restaurant"}
+ ],
+ parking:"今天不涉及驾车。浅草→上野→Skyliner→成田是最顺的路线，提早出发留足余裕。"}
+];
+
+const DATES=["11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25","11/26","11/27","11/28"];
+let cur=0,budOpen=false;
+
+function buildGrid(){
+  const g=document.getElementById('mg');g.innerHTML='';
+  DAYS.forEach((d,i)=>{
+    const el=document.createElement('div');
+    el.className='mday'+(i===0?' on':'');el.id='mi'+i;
+    el.innerHTML=`<div class="mn">D${d.d}</div><div class="md">${DATES[i]}</div>`;
+    el.onclick=()=>goTo(i);g.appendChild(el);
+  });
+}
+
+const MEAL_CLS={早:'mb-morn',午:'mb-lunch',晚:'mb-dinner',小食:'mb-snack'};
+
+function render(i){
+  const d=DAYS[i];
+  document.getElementById('dn').textContent='D'+d.d;
+  document.getElementById('ds').textContent=d.date+' '+d.week+' · '+d.route;
+  document.getElementById('btnP').className='abtn'+(i===0?' off':'');
+  document.getElementById('btnN').className='abtn'+(i===DAYS.length-1?' off':'');
+  document.querySelectorAll('.mday').forEach((el,j)=>el.classList.toggle('on',j===i));
+  document.getElementById('cb').textContent='D'+d.d;
+  document.getElementById('cd').textContent=d.drive;
+  document.getElementById('ct').textContent=d.route;
+  document.getElementById('ch').innerHTML='🏨 <em>'+d.hotel+'</em> · '+d.date+' '+d.week;
+  document.getElementById('cth').textContent=d.theme;
+  document.getElementById('cs').textContent=d.strategy;
+
+  // sights
+  const sl=document.getElementById('sight-list');sl.innerHTML='';
+  d.sights.forEach(s=>{
+    const div=document.createElement('div');div.className='sight';
+    div.innerHTML=`<div class="sight-ico">${s.i}</div><div class="sight-info"><div class="sight-name">${s.n}</div><div class="sight-tip">${s.t}</div><a class="map-btn" href="${s.u}" target="_blank" rel="noopener">📍 地图</a></div>`;
+    sl.appendChild(div);
+  });
+
+  // meals
+  const ml=document.getElementById('meal-list');ml.innerHTML='';
+  d.meals.forEach(m=>{
+    const div=document.createElement('div');div.className='meal';
+    const cls=MEAL_CLS[m.t]||'mb-snack';
+    div.innerHTML=`<div class="meal-top"><span class="meal-badge ${cls}">${m.t}</span><div class="meal-info"><div class="meal-name">${m.n}</div><div class="meal-type">${m.ty}</div><div class="meal-tip">${m.tip}</div></div></div><div class="meal-map"><a class="map-btn" href="${m.u}" target="_blank" rel="noopener">📍 地图导航</a></div>`;
+    ml.appendChild(div);
+  });
+
+  // parking
+  document.getElementById('park-txt').textContent=d.parking;
+
+  // reset sections: sights closed, meals open, park closed
+  ['sights','park'].forEach(k=>{
+    document.getElementById('body-'+k).classList.remove('open');
+    document.getElementById('chev-'+k).classList.remove('open');
+  });
+  document.getElementById('body-meals').classList.add('open');
+  document.getElementById('chev-meals').classList.add('open');
+}
+
+function goTo(i){
+  if(i<0||i>=DAYS.length)return;
+  const dc=document.getElementById('dc');
+  dc.classList.add('fade');
+  setTimeout(()=>{cur=i;render(i);dc.classList.remove('fade');
+    document.getElementById('mi'+i).scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  },120);
+}
+function nav(dir){const n=cur+dir;if(n>=0&&n<DAYS.length)goTo(n);}
+function tog(k){
+  document.getElementById('body-'+k).classList.toggle('open');
+  document.getElementById('chev-'+k).classList.toggle('open');
+}
+function togBud(){
+  budOpen=!budOpen;
+  document.getElementById('bb').classList.toggle('open',budOpen);
+  document.getElementById('bl').textContent=budOpen?'收起明细 ▲':'展开明细 ▼';
+}
+
+// swipe
+(function(){
+  const dc=document.getElementById('dc');let sx=0,sy=0;
+  dc.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
+  dc.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40)nav(dx<0?1:-1);
+  },{passive:true});
+})();
+
+buildGrid();render(0);
+</script>
+</body>
+</html>
