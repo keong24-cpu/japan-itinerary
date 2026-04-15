@@ -308,7 +308,7 @@ body{
   <div class="bud-hd" onclick="togToll()">
     <div><div class="bud-hl">ETC 过路费估算</div><div class="bud-meta">9个驾车日 · ETC 普通车</div></div>
     <div style="text-align:right">
-      <div class="bud-tot">¥ 33,700</div>
+      <div class="bud-tot">¥ 32,700</div>
       <div class="bud-tog" id="tl">展开明细 ▼</div>
     </div>
   </div>
@@ -317,21 +317,70 @@ body{
       <table class="btbl">
         <tr><th>路段</th><th>日期</th><th style="text-align:right">¥</th></tr>
         <tr><td class="hn">D1 KIX → 名古屋 → 岐阜美浓</td><td class="dt">11/15</td><td class="pr">6,500</td></tr>
-        <tr><td class="hn">D2 岐阜美浓 → 名古屋 → 高山</td><td class="dt">11/16</td><td class="pr">3,500</td></tr>
+        <tr><td class="hn">D2 岐阜美浓 → 郡上八幡 → 高山</td><td class="dt">11/16</td><td class="pr">2,500</td></tr>
         <tr><td class="hn">D4 高山 → 白川乡 → 金泽</td><td class="dt">11/18</td><td class="pr">2,700</td></tr>
         <tr><td class="hn">D6 金泽 → 小布施 → 长野</td><td class="dt">11/20</td><td class="pr">6,000</td></tr>
         <tr><td class="hn">D7 长野 → 雪猴公苑 → 长野</td><td class="dt">11/21</td><td class="pr">1,500</td></tr>
         <tr><td class="hn">D8 长野 → 奈良井宿 → 松本</td><td class="dt">11/22</td><td class="pr">3,000</td></tr>
-        <tr><td class="hn">D9 松本 → 箱根 → 御殿场</td><td class="dt">11/23</td><td class="pr">5,500</td></tr>
-        <tr><td class="hn">D10 御殿场 → 三岛 → 伊东</td><td class="dt">11/24</td><td class="pr">2,000</td></tr>
+        <tr><td class="hn">D9 松本 → 御殿场 → 箱根一圈</td><td class="dt">11/23</td><td class="pr">5,500</td></tr>
+        <tr><td class="hn">D10 御殿场 → 三岛 → 伊东</td><td class="dt">11/24</td><td class="pr">1,500</td></tr>
         <tr><td class="hn">D12 伊豆 → 东京浅草还车</td><td class="dt">11/26</td><td class="pr">3,500</td></tr>
         <tr style="background:rgba(159,65,39,.05)">
           <td colspan="2" style="font-weight:700;color:var(--ink);padding:9px 13px">合计</td>
-          <td class="pr" style="font-size:15px">33,700</td>
+          <td class="pr" style="font-size:15px">32,700</td>
         </tr>
       </table>
     </div>
     <div class="bud-note">估算基于 ETC 普通车、NEXCO 一般时段费率，不含首都高与市区停车。实际金额以当日 ETC 结算为准，建议事前用 <a href="https://www.driveplaza.com/dp/SearchTop" style="color:var(--blue)">NEXCO Dora-Navi</a> 查询精确值。</div>
+  </div>
+</div>
+
+<!-- FUEL + PARKING BUDGET -->
+<div class="budget">
+  <div class="bud-hd" onclick="togFuel()">
+    <div><div class="bud-hl">加油 · 停车费估算</div><div class="bud-meta">约 1,550 km · 9 驾车日 + 8 夜停车</div></div>
+    <div style="text-align:right">
+      <div class="bud-tot">¥ 34,400</div>
+      <div class="bud-tog" id="fl">展开明细 ▼</div>
+    </div>
+  </div>
+  <div class="bud-body" id="fb">
+    <div style="overflow-x:auto">
+      <table class="btbl">
+        <tr><th>项目</th><th>计算依据</th><th style="text-align:right">¥</th></tr>
+        <tr><td class="hn">加油(汽油)</td><td class="dt">1,550km ÷ 14km/L × ¥170</td><td class="pr">19,400</td></tr>
+        <tr><td class="hn">高山 · Hotel Around 夜停</td><td class="dt">¥1,000 × 2 晚</td><td class="pr">2,000</td></tr>
+        <tr><td class="hn">金泽 · Vista Kanazawa 夜停</td><td class="dt">¥1,500 × 2 晚</td><td class="pr">3,000</td></tr>
+        <tr><td class="hn">长野 · NAGANO NeXT 夜停</td><td class="dt">¥1,000 × 2 晚</td><td class="pr">2,000</td></tr>
+        <tr><td class="hn">松本 · Dormy Inn 夜停</td><td class="dt">¥1,500 × 1 晚</td><td class="pr">1,500</td></tr>
+        <tr><td class="hn">D1 名古屋港水族馆 + 市区停车</td><td class="dt">¥600/h × 3h</td><td class="pr">1,800</td></tr>
+        <tr><td class="hn">D2 郡上八幡町营 / 城下停车</td><td class="dt">半日</td><td class="pr">600</td></tr>
+        <tr><td class="hn">D4 白川乡村营停车场</td><td class="dt">1日</td><td class="pr">1,000</td></tr>
+        <tr><td class="hn">D6 小布施公共停车</td><td class="dt">半日</td><td class="pr">500</td></tr>
+        <tr><td class="hn">D7 雪猴公苑停车场</td><td class="dt">半日</td><td class="pr">500</td></tr>
+        <tr><td class="hn">D8 松本城周边停车</td><td class="dt">半日</td><td class="pr">600</td></tr>
+        <tr><td class="hn">D9 芦之湖 + 大涌谷停车</td><td class="dt">各半日</td><td class="pr">1,500</td></tr>
+        <tr style="background:rgba(159,65,39,.05)">
+          <td colspan="2" style="font-weight:700;color:var(--ink);padding:9px 13px">合计</td>
+          <td class="pr" style="font-size:15px">34,400</td>
+        </tr>
+      </table>
+    </div>
+    <div class="bud-note">加油按紧凑型租车 14km/L 保守值,汽油价 ¥170/L(2026 预估)。Fairfield 岐阜美浓、Rembrandt 御殿场、Ito Kowakien、东京浅草还车后均免停车费。三岛天空步道停车场免费。</div>
+  </div>
+</div>
+
+<!-- GRAND TOTAL DRIVING COST -->
+<div class="budget">
+  <div class="bud-hd" style="cursor:default">
+    <div>
+      <div class="bud-hl">驾车段总成本</div>
+      <div class="bud-meta">过路费 + 加油 + 停车</div>
+    </div>
+    <div style="text-align:right">
+      <div class="bud-tot">¥ 67,100</div>
+      <div class="bud-tog" style="background:transparent;color:var(--gold)">≈ MYR 2,020</div>
+    </div>
   </div>
 </div>
 
@@ -597,7 +646,7 @@ const DAYS=[
 ];
 
 const DATES=["11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25","11/26","11/27","11/28"];
-let cur=0,budOpen=false,tollOpen=false;
+let cur=0,budOpen=false,tollOpen=false,fuelOpen=false;
 
 function buildGrid(){
   const g=document.getElementById('mg');g.innerHTML='';
@@ -676,6 +725,11 @@ function togToll(){
   tollOpen=!tollOpen;
   document.getElementById('tb').classList.toggle('open',tollOpen);
   document.getElementById('tl').textContent=tollOpen?'收起明细 ▲':'展开明细 ▼';
+}
+function togFuel(){
+  fuelOpen=!fuelOpen;
+  document.getElementById('fb').classList.toggle('open',fuelOpen);
+  document.getElementById('fl').textContent=fuelOpen?'收起明细 ▲':'展开明细 ▼';
 }
 
 // swipe
