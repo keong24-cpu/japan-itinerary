@@ -88,6 +88,7 @@ body{
 .dc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:3px;font-family:"Noto Serif SC",serif}
 .dc-hotel{font-size:12px;color:var(--muted)}
 .dc-hotel em{color:var(--gold);font-style:normal;font-weight:500}
+.dc-hotel a{text-decoration:none;border-bottom:1px dashed var(--gold)}
 
 /* theme */
 .theme{padding:11px 16px 10px;font-size:13px;color:var(--muted);display:flex;gap:7px;
@@ -725,7 +726,7 @@ function render(i){
   document.getElementById('cb').textContent='D'+d.d;
   document.getElementById('cd').textContent=d.drive;
   document.getElementById('ct').textContent=d.route;
-  document.getElementById('ch').innerHTML='🏨 <em>'+d.hotel+'</em> · '+d.date+' '+d.week;
+  document.getElementById('ch').innerHTML='🏨 <a href="'+M+encodeURIComponent(d.hotel)+'" target="_blank" rel="noopener"><em>'+d.hotel+'</em></a> · '+d.date+' '+d.week;
   document.getElementById('cth').textContent=d.theme;
 
   // weather
