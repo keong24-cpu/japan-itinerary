@@ -23,7 +23,7 @@ body{
   background-attachment:fixed;
   color:var(--ink);
   font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
-  min-height:100vh;padding:12px 10px;
+  min-height:100vh;min-height:100dvh;padding:12px 10px;
 }
 .wrap{max-width:540px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
 
@@ -42,7 +42,10 @@ body{
 .stat-n{font-size:20px;font-weight:700;color:var(--red);font-family:"Noto Serif SC",serif;line-height:1}
 .stat-l{font-size:10px;color:var(--muted);margin-top:2px}
 .route-strip{background:rgba(31,43,47,.04);border:1px solid var(--line);border-radius:9px;
-  padding:8px 11px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;flex-wrap:wrap;line-height:1.9}
+  padding:8px 11px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;
+  flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;line-height:1.9;
+  scrollbar-width:none}
+.route-strip::-webkit-scrollbar{display:none}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
 .dot.b{background:var(--blue)}
 .arr{color:var(--line);font-size:13px}
@@ -152,6 +155,40 @@ body{
 .bud-note{padding:9px 16px 13px;font-size:11px;color:var(--muted);line-height:1.6;border-top:1px solid var(--line)}
 
 .footer{text-align:center;font-size:11px;color:var(--muted);padding:4px 0 6px;line-height:1.9}
+
+/* ── DARK MODE ── */
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:rgba(28,32,36,0.92);
+    --ink:#ece4d3;--muted:#9ba29f;--line:rgba(236,228,211,0.10);
+    --red:#d97a5b;--red-lt:rgba(217,122,91,0.12);--red-bd:rgba(217,122,91,0.28);
+    --blue:#6fb3cc;--blue-lt:rgba(111,179,204,0.12);--blue-bd:rgba(111,179,204,0.28);
+    --gold:#e0b968;--gold-lt:rgba(224,185,104,0.14);
+    --green:#6bc28e;--green-lt:rgba(107,194,142,0.12);
+    --sh:0 10px 28px rgba(0,0,0,0.45);
+  }
+  body{
+    background:
+      radial-gradient(circle at top right,rgba(224,185,104,0.10),transparent 30%),
+      radial-gradient(circle at left 25%,rgba(111,179,204,0.08),transparent 30%),
+      linear-gradient(180deg,#1a1d21,#141619);
+    color:var(--ink);
+  }
+  .hero{background:linear-gradient(135deg,rgba(38,42,46,.95),rgba(30,33,37,.95))}
+  .hero::after{background:radial-gradient(circle,rgba(217,122,91,.14),transparent 68%)}
+  .stat,.ddisp,.mday,.sight,.meal{background:rgba(255,255,255,.04)}
+  .route-strip{background:rgba(255,255,255,.03)}
+  .nav-div,.sec-hd,.btbl th,.btbl td{border-color:var(--line)}
+  .bud-tog{background:rgba(255,255,255,.06)}
+  .strat{background:var(--red-lt)}
+  .hero-t,.dc-title,.sight-name,.meal-name,.bud-hl,.bud-tot,.dn,.stat-n{color:var(--ink)}
+  .stat-n,.dn,.bud-tot{color:var(--red)}
+  .mday.on{background:var(--red);border-color:var(--red)}
+  .mday.on .mn{color:#1a1d21}.mday.on .md{color:rgba(26,29,33,.7)}
+  .abtn{box-shadow:0 4px 12px rgba(0,0,0,.5)}
+  .abtn.off{background:rgba(255,255,255,.08)}
+  .btbl tr:nth-child(even) td,tr[style*="rgba(159,65,39"]{background:rgba(255,255,255,.02)!important}
+}
 </style>
 </head>
 <body>
@@ -307,42 +344,47 @@ body{
 <script>
 const M="https://www.google.com/maps/search/?api=1&query=";
 const DAYS=[
-{d:1,date:"11月15日",week:"周日",drive:"KIX 取车 → 约 2小时高速 → 名古屋港水族馆 → 名古屋午餐 → 岐阜美浓",route:"关西机场取车 → 名古屋港水族馆 → 名古屋午餐 → 岐阜美浓",
- theme:"KIX 取车 / 名古屋港水族馆（周日开放）/ 傍晚抵达岐阜美浓",hotel:"Fairfield by Marriott Gifu Mino",
- strategy:"05:50 落地，扣掉入境＋行李＋租车接驳，约 7:30–8:00 才能上路。建议取车后先在机场吃早餐休息 30–45 分钟再出发，名古屋午餐时间（11–12点）刚好到。高速路线：关西空港道 → 阪神高速 → 名神高速 → 名古屋，大部分是笔直高速，两小时多不难开。全程记得开 ETC 车道，比人工缴费省时间。",
+{d:1,date:"11月15日",week:"周日",drive:"KIX → 名古屋玩整天 → 晚餐后进岐阜美浓",route:"关西机场 → 名古屋港水族馆 → 名古屋市区 → 岐阜美浓",
+ theme:"KIX 取车 / 名古屋整天 / 晚餐后再入住岐阜美浓",hotel:"Fairfield by Marriott Gifu Mino（晚到 ~21:00）",
+ strategy:"酒店已订不能改，但节奏可以放松。把名古屋当成「完整的一天」而不是顺路点：水族馆 + 午餐 + 荣/热田散步 + 晚餐全部在名古屋市内完成，20:00 后才上高速往岐阜美浓，夜间 50 分钟车程到 Fairfield。务必提前发邮件告知酒店 late check-in ~21:00。晚餐选清淡路线（手羽先 or うどん），避免味噌浓味配红眼疲劳。",
  sights:[
    {i:"✈",n:"① 关西国际机场 KIX · 抵达入境",t:"05:50 落地 → 入境审查（早班人少约 30 分钟）→ 提取行李 → 出 Arrivals 大厅。预计 07:00–07:30 完成入境。",u:M+"Kansai+International+Airport"},
-   {i:"🚗",n:"② KIX 租车取车流程",t:"出 Arrivals 后往 1F 外侧找「렌탈カー接送巴士」停车区，各家租车公司免费接驳巴士约 5–10 分钟一班。建议提前在 Toyota Rent a Car / Times Car / Nippon Rent-A-Car 官网预约，并选含 ETC 卡 + 免责险方案。取车＋办手续约 20–30 分钟。",u:M+"Toyota+Rent+a+Car+Kansai+Airport"},
-   {i:"☕",n:"③ 机场早餐休息（出发前）",t:"红眼航班落地建议不急出发。KIX 第一航站楼 2F 有星巴克和多家早餐店，休息 30–45 分钟调整状态再上路，比疲劳驾驶安全。",u:M+"Kansai+Airport+Terminal+1+Restaurant"},
-   {i:"🛣",n:"④ 高速路线：KIX → 名古屋",t:"关西空港道上高速 → 阪神高速湾岸线 → 伊勢湾岸自動車道 → 名古屋。全程约 200km，2 至 2.5 小时，过路费约 ¥3,500。走伊勢湾岸線比名神高速顺畅，周日早上路况好。",u:"https://www.google.com/maps/dir/Kansai+International+Airport/Nagoya+Station/@34.9,136.5,9z/data=!3m1!4b1"},
-   {i:"🐬",n:"⑤ 名古屋港水族馆",t:"09:30 开馆，日本规模最大水族馆之一。虎鲸（シャチ）和宽吻海豚表演是招牌，南馆企鹅和北馆海豚池各有特色。建议游览 2–2.5 小时。门票大人 ¥2,030，停车场约 ¥600/小时。⚠️ 周一公休，D1（周日）去是唯一机会。",u:M+"名古屋港水族館"},
-   {i:"🍽",n:"⑥ 名古屋市区午餐",t:"水族馆在名古屋港，开车约 20 分钟到荣或名古屋站。午餐后继续出发岐阜美浓，全程约 40 分钟。",u:M+"Nagoya+Station+Parking"},
-   {i:"🏨",n:"⑦ Fairfield by Marriott Gifu Mino",t:"名古屋出发约 40 分钟即到岐阜美浓。今晚落脚点，酒店有停车场，直接停入不用再找车位。",u:M+"Fairfield+by+Marriott+Gifu+Mino"}
+   {i:"🚗",n:"② KIX 租车取车流程",t:"出 Arrivals 后往 1F 外侧找租车接驳巴士停车区，各家租车公司免费接驳约 5–10 分钟一班。建议提前预约 Toyota Rent a Car / Times Car / Nippon Rent-A-Car，选含 ETC 卡 + 免责险 + 冬タイヤ方案。取车＋办手续约 20–30 分钟。",u:M+"Toyota+Rent+a+Car+Kansai+Airport"},
+   {i:"☕",n:"③ 机场早餐休息（出发前）",t:"红眼航班落地别急着出发。KIX 第一航站楼 2F 有星巴克和多家早餐店，休息 30–45 分钟调整状态再上路，比疲劳驾驶安全。",u:M+"Kansai+Airport+Terminal+1+Restaurant"},
+   {i:"🛣",n:"④ 高速：KIX → 名古屋港",t:"关西空港道 → 阪神高速湾岸线 → 伊勢湾岸自動車道 → 名古屋港 IC。全程约 200km，2–2.5 小时。走伊勢湾岸線比名神顺畅，周日早上路况好。",u:"https://www.google.com/maps/dir/Kansai+International+Airport/Port+of+Nagoya+Public+Aquarium"},
+   {i:"🐬",n:"⑤ 名古屋港水族馆（10:30–13:00）",t:"日本规模最大水族馆之一，虎鲸和海豚表演是招牌，南馆企鹅、北馆海豚池各有特色。建议 2–2.5 小时。门票大人 ¥2,030，停车场 ¥600/小时。⚠️ 周一公休，D1（周日）是唯一机会。",u:M+"名古屋港水族館"},
+   {i:"🍽",n:"⑥ 名古屋站/荣区午餐（13:30–15:00）",t:"水族馆到荣或名古屋站开车约 20 分钟。午餐选蓬莱軒ひつまぶし，吃完后可原地停车场续停继续散步。",u:M+"Sakae+Nagoya"},
+   {i:"⛩",n:"⑦ 热田神宫 or 荣散步（15:30–17:30）",t:"午餐后轻度散步回血：热田神宫日本三大神宫之一，绿意幽深约 1 小时；或荣商圈逛 Oasis21、大名古屋楼购物。二选一即可，别硬塞。",u:M+"Atsuta+Jingu"},
+   {i:"🍺",n:"⑧ 名古屋晚餐（18:00–19:30）",t:"晚餐选清淡路线：手羽先配生啤、或ころうどん，避免红眼日吃味噌浓味太负担。吃完立刻出发。",u:M+"世界の山ちゃん+本店+名古屋"},
+   {i:"🌃",n:"⑨ 夜间高速：名古屋 → 岐阜美浓（20:00–21:00）",t:"名古屋 IC 上东海北陆道北上，约 50 分钟到美浓 IC。夜间车少好开，但注意美浓 IC 前后山区路段偶有鹿出没，别开太快。",u:"https://www.google.com/maps/dir/Nagoya+Station/Fairfield+by+Marriott+Gifu+Mino"},
+   {i:"🏨",n:"⑩ Fairfield by Marriott Gifu Mino（~21:00 入住）",t:"务必提前发 email 告知 late check-in ~21:00。酒店有免费停车场，直接停入。简单洗漱早休息，明天是缓冲日不赶。",u:M+"Fairfield+by+Marriott+Gifu+Mino"}
  ],
  meals:[
    {t:"早",n:"KIX 机场 · 星巴克或便利店",ty:"机场早餐",tip:"出发前在机场简单吃，调整状态比空腹开车安全。第一航站楼 2F 有星巴克、Family Mart 及多家早餐店，7–8 点已全部开门。",u:M+"Kansai+Airport+Terminal+1+Starbucks"},
-   {t:"午",n:"蓬莱軒 松坂屋店",ty:"名古屋鳗鱼饭 (ひつまぶし)",tip:"名古屋鳗鱼饭始祖，三吃方式：先直接吃、再加葱芥末、最后加出汁泡饭。11点开门建议即到，否则排队等位。",u:M+"蓬莱軒+松坂屋名古屋店"},
-   {t:"午",n:"矢場とん 本店",ty:"味噌猪排 (みそかつ)",tip:"若蓬莱軒等位太久可改矢场とん，名古屋味噌猪排代表，味噌酱浓郁配白饭，价格亲民约 ¥1,500。",u:M+"矢場とん+本店+名古屋"},
-   {t:"晚",n:"岐阜美浓 · 酒店周边便利店",ty:"轻食",tip:"第一天不建议折腾晚餐，便利店或 Family Mart 解决即可。日本便利店便当水准不低，留体力早休息。",u:M+"Family+Mart+Gifu+Mino"}
+   {t:"午",n:"蓬莱軒 松坂屋店",ty:"名古屋鳗鱼饭 (ひつまぶし)",tip:"名古屋鳗鱼饭始祖，三吃方式：先直接吃、再加葱芥末、最后加出汁泡饭。建议 13:30 后到避开午市高峰。若等位太久改矢場とん味噌猪排。",u:M+"蓬莱軒+松坂屋名古屋店"},
+   {t:"晚",n:"世界の山ちゃん 本店",ty:"名古屋手羽先 (鸡翅) + 生啤",tip:"名古屋名物炸鸡翅，椒盐酥脆配生啤是本地吃法。轻量分量刚好不过饱，适合红眼日晚餐。吃完 19:30 前出发最稳。",u:M+"世界の山ちゃん+本店+名古屋"},
+   {t:"晚",n:"住よし（名古屋站立食）",ty:"ころうどん / きしめん",tip:"若想更轻更快，名古屋站新干线月台的立食きしめん（扁宽乌龙）是名古屋平民名物，10 分钟吃完立刻上车，红眼日首选。",u:M+"住よし+名古屋駅"}
  ],
- parking:"【过路费估算】约 ¥6,500（阪神 / 名神 / 东海北陆，ETC 普通车）。KIX 租车公司停车场免费（取车时算在租金内）。名古屋午餐停名古屋站 Meitetsu 地下停车场，首 2 小时有优惠，够用了。岐阜美浓酒店有免费停车场，直接入住不用另找。全程建议使用 ETC 卡过收费站，比人工缴费省 10–30% 且不用备零钱。"},
+ parking:"【过路费估算】约 ¥6,500（阪神湾岸 / 伊勢湾岸 / 名古屋高速 / 东海北陆，ETC 普通车）。KIX 租车公司停车场免费（算在租金内）。名古屋港水族馆有专属停车场 ¥600/小时。名古屋站 Meitetsu 或荣三越地下停车场首 2 小时有消费优惠。岐阜美浓 Fairfield 免费停车场。全程务必走 ETC 车道。⚠️ 酒店晚到务必邮件告知 late arrival ~21:00。"},
 
-{d:2,date:"11月16日",week:"周一",drive:"轻松缓冲日",route:"岐阜美浓 → 名古屋 → 高山",
- theme:"城市日 / 名古屋半日 / 傍晚转高山",hotel:"Hotel Around Takayama, Ascend Hotel Collection（第1晚）",
- strategy:"名古屋这天的角色是「补一个城市感」，不是主战场。建议挑 1–2 个点，下午就收线，晚上把重心切去高山。荣和热田神宫是最顺的两个选择。",
+{d:2,date:"11月16日",week:"周一",drive:"岐阜美浓 → 郡上八幡 → 高山（约 2.5h 净车程）",route:"岐阜美浓 → 郡上八幡 → 高山",
+ theme:"缓冲日 / 水之城郡上八幡 / 傍晚进高山",hotel:"Hotel Around Takayama, Ascend Hotel Collection（第1晚）",
+ strategy:"D1 已经把名古屋玩透，D2 不用再南下回头。岐阜美浓北上东海北陆道约 40 分钟到郡上八幡，逛这个「水之城下町」2 小时刚好，继续北上约 1.5 小时抵达高山，下午 4 点前就能 check in，傍晚去老街边缘散步+吃高山拉面。红眼后的第二天，节奏放松最重要。",
  sights:[
-   {i:"⛩",n:"热田神宫",t:"日本三大神宫之一，供奉天丛云剑，绿意幽深。早上参拜最安静，约1小时。",u:M+"Atsuta+Jingu"},
-   {i:"🏙",n:"荣（栄）商圈",t:"名古屋最热闹的购买和餐饮区，松坂屋、大名古屋楼都在这里。",u:M+"Sakae+Nagoya"},
-   {i:"🏯",n:"名古屋城（可选）",t:"若时间充裕可顺访，金鯱天守阁标志性，约1.5小时。否则略过直奔高山。",u:M+"Nagoya+Castle"},
-   {i:"🏨",n:"Hotel Around Takayama, Ascend Hotel Collection",t:"今晚入住高山市区，步行可到老街。",u:M+"Hotel+Around+Takayama"}
+   {i:"☕",n:"酒店早餐 / 美浓和纸之里",t:"Fairfield 晨起不急，顺路可访美浓和纸之里会馆（酒店附近），看日本三大和纸之一「美浓和纸」工艺，约 40 分钟即可体验抄纸。不想停也可直接出发。",u:M+"美濃和紙の里会館"},
+   {i:"🏯",n:"郡上八幡城",t:"山顶小城，日本最古木造重建天守，居高俯瞰郡上八幡全町。11 月下旬若有晚秋红叶更美。门票 320 円，步行上山约 20 分钟，可开车到山腰停车场再走。",u:M+"Gujo+Hachiman+Castle"},
+   {i:"💧",n:"郡上八幡旧町 · 宗祇水",t:"町内水道清澈到可以直接饮用，宗祇水是日本名水百选之一。石板小路、鲤鱼悠游的水渠是郡上招牌画面，步行 1 小时绕完。",u:M+"宗祇水+郡上八幡"},
+   {i:"🏘",n:"郡上八幡 · やなか水のこみち",t:"鹅卵石铺成的小巷配潺潺水流，郡上最上镜的一条街，短短 100 米但氛围感满分。",u:M+"やなか水のこみち+郡上八幡"},
+   {i:"🛣",n:"郡上八幡 → 高山（东海北陆道）",t:"郡上八幡 IC → 东海北陆道北上 → 飞驒清见 JCT → 高山 IC，约 1.5 小时。沿途穿过多个长隧道，车少风景好，傍晚前务必抵达避开夜间山路。",u:"https://www.google.com/maps/dir/Gujo+Hachiman/Takayama"},
+   {i:"🏨",n:"Hotel Around Takayama",t:"高山市区新酒店，步行 10 分钟到上三之町老街。下午 4 点前到可以从容 check-in，傍晚在老街边缘散步、吃高山拉面。",u:M+"Hotel+Around+Takayama"}
  ],
  meals:[
-   {t:"早",n:"酒店早餐或便利店",ty:"轻食",tip:"简单解决即可，留胃迎接名古屋午餐。",u:M+"Fairfield+by+Marriott+Gifu+Mino"},
-   {t:"午",n:"世界の山ちゃん 本店",ty:"名古屋手羽先 (鸡翅)",tip:"名古屋名物炸鸡翅，椒盐风味酥脆，下午茶或午餐都合适。本店在荣附近。",u:M+"世界の山ちゃん+本店+名古屋"},
-   {t:"午",n:"コメダ珈琲 (Komeda Coffee)",ty:"名古屋晨间文化 Morning",tip:"名古屋喫茶 Morning 文化：点咖啡自动附赠厚吐司+水煮蛋，本地体验满分。",u:M+"Komeda+Coffee+Nagoya"},
-   {t:"晚",n:"高山ラーメン · 豆天狗",ty:"高山拉面",tip:"高山清淡酱油拉面，配叉烧和麦饭，是飞驒地区特色。入住后步行即到。",u:M+"豆天狗+高山"}
+   {t:"早",n:"Fairfield 酒店早餐",ty:"自助早餐",tip:"Fairfield by Marriott 早餐通常含日式和西式自助，吃饱出发，中午在郡上轻食即可。",u:M+"Fairfield+by+Marriott+Gifu+Mino"},
+   {t:"午",n:"郡上八幡 · そばの平甚",ty:"郡上荞麦面",tip:"郡上老町中心的荞麦面老铺，手打十割荞麦配山菜天妇罗，水之町吃冷荞麦最对味。价格约 ¥1,200。",u:M+"そばの平甚+郡上八幡"},
+   {t:"小食",n:"郡上八幡 · 明宝ハム / 五平餅",ty:"郡上特产小吃",tip:"郡上名物「明宝火腿」切片试吃，町内多家店铺有售。五平饼现烤米饼抹味噌酱，边走边吃。",u:M+"明宝ハム+郡上八幡"},
+   {t:"晚",n:"高山ラーメン · 豆天狗",ty:"高山拉面",tip:"高山清淡酱油拉面，细面配叉烧和葱花，是飞驒地区特色。入住 Hotel Around 后步行 10 分钟即到，简单吃完早休息。",u:M+"豆天狗+高山"}
  ],
- parking:"【过路费估算】约 ¥3,500（东海北陆道，ETC 普通车）。名古屋热田神宫有专属停车场（免费）；荣商圈建议停松坂屋或三越地下停车场；傍晚前务必出发，避免夜间山路进高山。"},
+ parking:"【过路费估算】约 ¥2,500（东海北陆道美浓 IC → 高山 IC，ETC 普通车）。郡上八幡 IC 下高速后有町营停车场（约 ¥300/小时），步行逛旧町；郡上八幡城可开到山腰收费停车场。高山 Hotel Around 有自家停车场。⚠️ 11 月下旬飞驒地区可能初雪，务必确认租车已配冬タイヤ。"},
 
 {d:3,date:"11月17日",week:"周二",drive:"步行日",route:"高山整天",
  theme:"老街步行日 / 飞驒牛 / 最适合拍照",hotel:"Hotel Around Takayama, Ascend Hotel Collection（第2晚）",
@@ -638,7 +680,8 @@ function togToll(){
   dc.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
   dc.addEventListener('touchend',e=>{
     const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
-    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40)nav(dx<0?1:-1);
+    if(Math.abs(dy)>30)return;
+    if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*2)nav(dx<0?1:-1);
   },{passive:true});
 })();
 
