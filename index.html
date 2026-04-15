@@ -266,6 +266,38 @@ body{
   </div>
 </div>
 
+<!-- TOLL BUDGET -->
+<div class="budget">
+  <div class="bud-hd" onclick="togToll()">
+    <div><div class="bud-hl">ETC 过路费估算</div><div class="bud-meta">9个驾车日 · ETC 普通车</div></div>
+    <div style="text-align:right">
+      <div class="bud-tot">¥ 33,700</div>
+      <div class="bud-tog" id="tl">展开明细 ▼</div>
+    </div>
+  </div>
+  <div class="bud-body" id="tb">
+    <div style="overflow-x:auto">
+      <table class="btbl">
+        <tr><th>路段</th><th>日期</th><th style="text-align:right">¥</th></tr>
+        <tr><td class="hn">D1 KIX → 名古屋 → 岐阜美浓</td><td class="dt">11/15</td><td class="pr">6,500</td></tr>
+        <tr><td class="hn">D2 岐阜美浓 → 名古屋 → 高山</td><td class="dt">11/16</td><td class="pr">3,500</td></tr>
+        <tr><td class="hn">D4 高山 → 白川乡 → 金泽</td><td class="dt">11/18</td><td class="pr">2,700</td></tr>
+        <tr><td class="hn">D6 金泽 → 小布施 → 长野</td><td class="dt">11/20</td><td class="pr">6,000</td></tr>
+        <tr><td class="hn">D7 长野 → 雪猴公苑 → 长野</td><td class="dt">11/21</td><td class="pr">1,500</td></tr>
+        <tr><td class="hn">D8 长野 → 奈良井宿 → 松本</td><td class="dt">11/22</td><td class="pr">3,000</td></tr>
+        <tr><td class="hn">D9 松本 → 箱根 → 御殿场</td><td class="dt">11/23</td><td class="pr">5,500</td></tr>
+        <tr><td class="hn">D10 御殿场 → 三岛 → 伊东</td><td class="dt">11/24</td><td class="pr">2,000</td></tr>
+        <tr><td class="hn">D12 伊豆 → 东京浅草还车</td><td class="dt">11/26</td><td class="pr">3,500</td></tr>
+        <tr style="background:rgba(159,65,39,.05)">
+          <td colspan="2" style="font-weight:700;color:var(--ink);padding:9px 13px">合计</td>
+          <td class="pr" style="font-size:15px">33,700</td>
+        </tr>
+      </table>
+    </div>
+    <div class="bud-note">估算基于 ETC 普通车、NEXCO 一般时段费率，不含首都高与市区停车。实际金额以当日 ETC 结算为准，建议事前用 <a href="https://www.driveplaza.com/dp/SearchTop" style="color:var(--blue)">NEXCO Dora-Navi</a> 查询精确值。</div>
+  </div>
+</div>
+
 <div class="footer">
   <div>✈ 去程：2026年11月15日 05:50 抵达 KIX &nbsp;|&nbsp; 回程：11月28日 17:25 离开 NRT</div>
   <div style="margin-top:2px;opacity:.5">离线可用 · 点击地图跳转 Google Maps 导航</div>
@@ -293,7 +325,7 @@ const DAYS=[
    {t:"午",n:"矢場とん 本店",ty:"味噌猪排 (みそかつ)",tip:"若蓬莱軒等位太久可改矢场とん，名古屋味噌猪排代表，味噌酱浓郁配白饭，价格亲民约 ¥1,500。",u:M+"矢場とん+本店+名古屋"},
    {t:"晚",n:"岐阜美浓 · 酒店周边便利店",ty:"轻食",tip:"第一天不建议折腾晚餐，便利店或 Family Mart 解决即可。日本便利店便当水准不低，留体力早休息。",u:M+"Family+Mart+Gifu+Mino"}
  ],
- parking:"KIX 租车公司停车场免费（取车时算在租金内）。名古屋午餐停名古屋站 Meitetsu 地下停车场，首 2 小时有优惠，够用了。岐阜美浓酒店有免费停车场，直接入住不用另找。全程建议使用 ETC 卡过收费站，比人工缴费省 10–30% 且不用备零钱。"},
+ parking:"【过路费估算】约 ¥6,500（阪神 / 名神 / 东海北陆，ETC 普通车）。KIX 租车公司停车场免费（取车时算在租金内）。名古屋午餐停名古屋站 Meitetsu 地下停车场，首 2 小时有优惠，够用了。岐阜美浓酒店有免费停车场，直接入住不用另找。全程建议使用 ETC 卡过收费站，比人工缴费省 10–30% 且不用备零钱。"},
 
 {d:2,date:"11月16日",week:"周一",drive:"轻松缓冲日",route:"岐阜美浓 → 名古屋 → 高山",
  theme:"城市日 / 名古屋半日 / 傍晚转高山",hotel:"Hotel Around Takayama, Ascend Hotel Collection（第1晚）",
@@ -310,7 +342,7 @@ const DAYS=[
    {t:"午",n:"コメダ珈琲 (Komeda Coffee)",ty:"名古屋晨间文化 Morning",tip:"名古屋喫茶 Morning 文化：点咖啡自动附赠厚吐司+水煮蛋，本地体验满分。",u:M+"Komeda+Coffee+Nagoya"},
    {t:"晚",n:"高山ラーメン · 豆天狗",ty:"高山拉面",tip:"高山清淡酱油拉面，配叉烧和麦饭，是飞驒地区特色。入住后步行即到。",u:M+"豆天狗+高山"}
  ],
- parking:"名古屋热田神宫有专属停车场（免费）；荣商圈建议停松坂屋或三越地下停车场；傍晚前务必出发，避免夜间山路进高山。"},
+ parking:"【过路费估算】约 ¥3,500（东海北陆道，ETC 普通车）。名古屋热田神宫有专属停车场（免费）；荣商圈建议停松坂屋或三越地下停车场；傍晚前务必出发，避免夜间山路进高山。"},
 
 {d:3,date:"11月17日",week:"周二",drive:"步行日",route:"高山整天",
  theme:"老街步行日 / 飞驒牛 / 最适合拍照",hotel:"Hotel Around Takayama, Ascend Hotel Collection（第2晚）",
@@ -347,7 +379,7 @@ const DAYS=[
    {t:"小食",n:"五平餅 · 村内路边摊",ty:"五平饼",tip:"米粒捣打后串烤抹味噌，约 200円，白川乡村内常见小吃，边走边吃。",u:M+"五平餅+白川郷"},
    {t:"晚",n:"金泽 · 近江町市场周边",ty:"加贺料理 / 海鲜丼",tip:"傍晚抵达金泽后在近江町市场或东茶屋街附近找晚餐，治部煮或海鲜丼都是金泽首选。",u:M+"加賀料理+金沢+東茶屋街"}
  ],
- parking:"白川乡有指定收费停车场（约 500–1000円），步行进村参观。金泽入住酒店后把车停着不动，晚上步行或计程车解决。"},
+ parking:"【过路费估算】约 ¥2,700（东海北陆道 / 北陆道，ETC 普通车）。白川乡有指定收费停车场（约 500–1000円），步行进村参观。金泽入住酒店后把车停着不动，晚上步行或计程车解决。"},
 
 {d:5,date:"11月19日",week:"周四",drive:"城市慢游日",route:"金泽整天",
  theme:"兼六园 / 金泽城 / 茶屋街收尾",hotel:"Hotel Vista Kanazawa（第2晚）",
@@ -382,7 +414,7 @@ const DAYS=[
    {t:"晚",n:"藤木庵",ty:"信州荞麦面 (信州そば)",tip:"长野车站附近的信州荞麦面老铺，手打二八荞麦，配天妇罗或鸭肉，是长野最经典的晚餐。",u:M+"藤木庵+長野"},
    {t:"小食",n:"善光寺门前 · 七味唐辛子",ty:"长野名物 · 八幡屋礒五郎",tip:"善光寺参道旁的七味粉名店，可以调配自己专属七味，是长野代表伴手礼。",u:M+"八幡屋礒五郎+長野"}
  ],
- parking:"小布施有专属公共停车场（免费或低价），步行进老街最方便。长野市区建议停酒店不动，善光寺可步行或搭公车前往。"},
+ parking:"【过路费估算】约 ¥6,000（北陆道 / 上信越道，ETC 普通车）。小布施有专属公共停车场（免费或低价），步行进老街最方便。长野市区建议停酒店不动，善光寺可步行或搭公车前往。"},
 
 {d:7,date:"11月21日",week:"周六",drive:"雪猴主日（来回约2小时）",route:"长野 → 地狱谷野猿公苑 → 长野",
  theme:"雪猴泡温泉 / 轻松往返 / 节奏最松",hotel:"NEW NAGANO NeXT（第2晚）",
@@ -398,7 +430,7 @@ const DAYS=[
    {t:"晚",n:"そばの実 よこ田",ty:"信州荞麦面",tip:"长野市区高评价荞麦面店，手打十割荞麦，配鸭肉或海老天妇罗，晚餐首选。",u:M+"そばの実よこ田+長野"},
    {t:"小食",n:"信州りんご菓子 · 各店",ty:"信州苹果甜点",tip:"长野是日本苹果产地，苹果派、苹果冰淇淋在车站和善光寺周边均有售，买来路上吃。",u:M+"信州りんご+長野駅"}
  ],
- parking:"雪猴公苑有专属停车场（约500円），停车后必须步行约30分钟进园，无法开车进入。"},
+ parking:"【过路费估算】约 ¥1,500（上信越道长野 IC ↔ 信州中野 IC，ETC 普通车）。雪猴公苑有专属停车场（约500円），停车后必须步行约30分钟进园，无法开车进入。"},
 
 {d:8,date:"11月22日",week:"周日",drive:"约 2–2.5 小时（含奈良井宿游览）",route:"长野 → 奈良井宿 → 松本",
  theme:"江户宿场町 / 奈良井宿漫步 / 松本过夜",hotel:"Dormy Inn Matsumoto",
@@ -417,7 +449,7 @@ const DAYS=[
    {t:"晚",n:"松本 · 三城 (みしろ)",ty:"信州马肉料理 (馬刺し)",tip:"长野松本是日本少数有马肉刺身文化的地区，馬刺し（生马肉）配大蒜酱油，体验感十足，松本市区有多家专门店。",u:M+"馬刺し+松本"},
    {t:"晚",n:"松本 · 女鳥羽そば（めとりば）",ty:"松本荞麦面",tip:"松本城附近高评价荞麦面店，手打荞麦麦香浓，若不想吃马肉可来这里。",u:M+"女鳥羽そば+松本"}
  ],
- parking:"奈良井宿有免费停车场在入口处，步行进宿场町。松本 Dormy Inn 附近有停车场（收费），停好不动，傍晚步行逛中町和松本城。"},
+ parking:"【过路费估算】约 ¥3,000（长野道，ETC 普通车）。奈良井宿有免费停车场在入口处，步行进宿场町。松本 Dormy Inn 附近有停车场（收费），停好不动，傍晚步行逛中町和松本城。"},
 
 {d:9,date:"11月23日",week:"周一",drive:"约 3.5–4.5 小时（松本→箱根→御殿场）",route:"松本城 → 箱根精选 → 御殿场",
  theme:"松本城晨游 / 芦之湖 · 箱根神社 / 御殿场入住",hotel:"Rembrandt Premium Fuji Gotemba",
@@ -433,7 +465,7 @@ const DAYS=[
    {t:"午",n:"箱根 · 芦之湖周边餐厅",ty:"箱根乡土料理 / 山菜定食",tip:"芦之湖周边多家餐厅提供箱根乡土料理，山菜定食和当地豆腐料理都是选择，湖景用餐加分。",u:M+"Hakone+Ashinoko+Restaurant"},
    {t:"晚",n:"御殿场 · 炭焼きレストランさわやか",ty:"静冈汉堡排 (げんこつハンバーグ)",tip:"静冈超人气汉堡排专门店，げんこつ（拳头）形状的多汁牛肉饼，桌边切开淋酱仪式感十足。等位可能1–2小时，建议抵达御殿场后先取号。",u:M+"さわやか+御殿場"}
  ],
- parking:"松本城有收费停车场；箱根芦之湖周边有停车场（旺季建议早到）；御殿场酒店有停车场。箱根进山部分路段跟着导航走国道，避开需要缆车的路段。"},
+ parking:"【过路费估算】约 ¥5,500（长野道 / 中央道 / 东名，ETC 普通车）。松本城有收费停车场；箱根芦之湖周边有停车场（旺季建议早到）；御殿场酒店有停车场。箱根进山部分路段跟着导航走国道，避开需要缆车的路段。"},
 
 {d:10,date:"11月24日",week:"周二",drive:"约 3–4 小时含顺停",route:"御殿场 → 大涌谷 → 三岛天空步道 → 伊东",
  theme:"大涌谷硫磺地 / 三岛天空步道 / 伊东温泉入住",hotel:"Ito Kowakien（第1晚）",
@@ -450,7 +482,7 @@ const DAYS=[
    {t:"午",n:"三岛 · 桜家 (さくらや)",ty:"鳗鱼饭 (うなじゅう)",tip:"三岛鳗鱼是静冈名物，桜家是三岛最有名的鳗鱼饭老铺，建议天空步道后绕道去吃。需预约或早去排队。",u:M+"桜家+三島"},
    {t:"晚",n:"Ito Kowakien · 旅馆晚餐",ty:"伊豆海鲜会席",tip:"旅馆含晚餐，金目鯛（金眼鲷）是伊东特产，会席料理地方食材丰富，就地解决。",u:M+"Ito+Kowakien"}
  ],
- parking:"大涌谷有专属停车场（旺季可能需要提前确认开放状况）；三岛天空步道有免费大型停车场；伊东温泉街停车场较多，旅馆通常有专属停车。"},
+ parking:"【过路费估算】约 ¥2,000（东名 / 伊豆纵贯道，ETC 普通车）。大涌谷有专属停车场（旺季可能需要提前确认开放状况）；三岛天空步道有免费大型停车场；伊东温泉街停车场较多，旅馆通常有专属停车。"},
 
 {d:11,date:"11月25日",week:"周三",drive:"伊豆整天",route:"伊东 / 伊豆",
  theme:"大室山 / 城崎海岸 / 温泉放松",hotel:"Ito Kowakien（第2晚）",
@@ -484,7 +516,7 @@ const DAYS=[
    {t:"晚",n:"今半 本店（国際通り）",ty:"浅草寿喜烧",tip:"浅草百年寿喜烧老铺，和牛与豆腐蔬菜在铸铁锅里慢煮，配生蛋液，东京老味道。价格较高需预约。",u:M+"今半+浅草+本店"},
    {t:"小食",n:"人形焼 · 仲见世各店",ty:"人形烧 (にんぎょうやき)",tip:"浅草寺造型的铜锣烧式甜点，仲见世商店街现烤现卖，约200円，边逛边吃。",u:M+"人形焼+仲見世"}
  ],
- parking:"还车后不再需要停车。浅草区域全程步行和地铁，请勿在东京市区开车。"},
+ parking:"【过路费估算】约 ¥3,500（小田原厚木道 / 东名，ETC 普通车；不含首都高）。还车后不再需要停车。浅草区域全程步行和地铁，请勿在东京市区开车。"},
 
 {d:13,date:"11月27日",week:"周五",drive:"东京整天",route:"东京自由行",
  theme:"浅草寺 / 上野 / 六义园夜枫可选",hotel:"Richmond Hotel Asakusa（第2晚）",
@@ -519,7 +551,7 @@ const DAYS=[
 ];
 
 const DATES=["11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25","11/26","11/27","11/28"];
-let cur=0,budOpen=false;
+let cur=0,budOpen=false,tollOpen=false;
 
 function buildGrid(){
   const g=document.getElementById('mg');g.innerHTML='';
@@ -593,6 +625,11 @@ function togBud(){
   budOpen=!budOpen;
   document.getElementById('bb').classList.toggle('open',budOpen);
   document.getElementById('bl').textContent=budOpen?'收起明细 ▲':'展开明细 ▼';
+}
+function togToll(){
+  tollOpen=!tollOpen;
+  document.getElementById('tb').classList.toggle('open',tollOpen);
+  document.getElementById('tl').textContent=tollOpen?'收起明细 ▲':'展开明细 ▼';
 }
 
 // swipe
