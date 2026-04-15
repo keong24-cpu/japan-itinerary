@@ -81,6 +81,10 @@ body{
 .dc-meta{display:flex;align-items:center;gap:7px;margin-bottom:7px;flex-wrap:wrap}
 .badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px}
 .dbadge{background:var(--blue-lt);color:var(--blue);font-size:11px;padding:2px 9px;border-radius:20px}
+.wchip{background:rgba(198,156,77,.12);color:#8a6800;font-size:11px;padding:2px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:3px}
+.wchip b{font-weight:700;font-variant-numeric:tabular-nums}
+.wnote{margin:9px 16px 0;padding:8px 12px;background:var(--gold-lt);border-radius:9px;font-size:12px;color:var(--muted);line-height:1.6;display:flex;gap:7px;align-items:flex-start}
+.wnote span:first-child{font-size:14px;flex-shrink:0}
 .dc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:3px;font-family:"Noto Serif SC",serif}
 .dc-hotel{font-size:12px;color:var(--muted)}
 .dc-hotel em{color:var(--gold);font-style:normal;font-weight:500}
@@ -230,10 +234,12 @@ body{
     <div class="dc-meta">
       <span class="badge" id="cb">D1</span>
       <span class="dbadge" id="cd"></span>
+      <span class="wchip" id="cw"></span>
     </div>
     <div class="dc-title" id="ct"></div>
     <div class="dc-hotel" id="ch"></div>
   </div>
+  <div class="wnote" id="cwn"><span>🧥</span><span id="cwnt"></span></div>
   <div class="theme"><span>🎯</span><span id="cth"></span></div>
   <div class="strat"><div class="sl">攻略重点</div><div class="st" id="cs"></div></div>
 
@@ -658,6 +664,25 @@ const DAYS=[
 
 const DATES=["11/15","11/16","11/17","11/18","11/19","11/20","11/21","11/22","11/23","11/24","11/25","11/26","11/27","11/28"];
 
+// 11月下旬典型气候（基于历史平均，出发前以实际预报为准）
+// i=图标 l=低温 h=高温 d=描述 w=穿搭/注意事项
+const WEATHER={
+ 1:{i:"🌤",l:11,h:17,d:"阪神/名古屋 晴转多云",w:"外套即可 · 可脱可穿"},
+ 2:{i:"⛅",l:3,h:11,d:"岐阜→飞驒 转凉",w:"厚外套 · 进山就明显冷"},
+ 3:{i:"🌥",l:2,h:10,d:"高山 多云偏冷",w:"保暖必备 · 早晚接近 0°C"},
+ 4:{i:"🌨",l:-1,h:8,d:"白川乡可能初雪 · 金泽阴冷",w:"防水鞋 + 厚外套 · 白川乡路滑"},
+ 5:{i:"🌧",l:7,h:13,d:"金泽 时雨 (北陆特色)",w:"折伞必备 · 北陆一周 5 天会下"},
+ 6:{i:"⛅",l:2,h:12,d:"北陆→长野 天晴",g:"信州晴朗干爽"},
+ 7:{i:"🌨",l:0,h:8,d:"地狱谷 寒冷可能飘雪",w:"保暖+防滑 · 雪猴园步道湿滑"},
+ 8:{i:"☀",l:1,h:11,d:"信州 晴 早晚低温",w:"层穿 · 奈良井宿早晨结霜"},
+ 9:{i:"☀",l:3,h:13,d:"松本→御殿场 晴 可见富士",w:"适合摄影 · 大涌谷山顶风大"},
+ 10:{i:"⛅",l:9,h:16,d:"伊豆 温暖宜人",w:"伊豆比内陆暖 5–8°C"},
+ 11:{i:"🌤",l:9,h:16,d:"伊豆 温暖",w:"大室山顶风大需加件"},
+ 12:{i:"⛅",l:10,h:16,d:"伊豆→东京 转多云",w:"适合出行"},
+ 13:{i:"⛅",l:8,h:16,d:"东京 秋意正盛",w:"六义园夜枫仍有余红"},
+ 14:{i:"🌤",l:8,h:16,d:"东京→成田 晴",w:"返程无忧"}
+};
+
 // 每日支出估算（2人，¥，不含住宿）
 // t=过路 f=加油 p=停车 m=餐饮 k=门票/交通
 const COSTS={
@@ -702,6 +727,12 @@ function render(i){
   document.getElementById('ct').textContent=d.route;
   document.getElementById('ch').innerHTML='🏨 <em>'+d.hotel+'</em> · '+d.date+' '+d.week;
   document.getElementById('cth').textContent=d.theme;
+
+  // weather
+  const w=WEATHER[d.d];
+  document.getElementById('cw').innerHTML=`${w.i} <b>${w.l}°–${w.h}°</b>`;
+  document.getElementById('cwnt').textContent=`${w.d} · ${w.w||w.g||''}`;
+
   document.getElementById('cs').textContent=d.strategy;
 
   // sights
