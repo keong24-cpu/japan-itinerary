@@ -726,7 +726,8 @@ function render(i){
   document.getElementById('cb').textContent='D'+d.d;
   document.getElementById('cd').textContent=d.drive;
   document.getElementById('ct').textContent=d.route;
-  document.getElementById('ch').innerHTML='🏨 <a href="'+M+encodeURIComponent(d.hotel)+'" target="_blank" rel="noopener"><em>'+d.hotel+'</em></a> · '+d.date+' '+d.week;
+  {const hn=d.hotel.split(/[(（]/)[0].trim();const hr=d.hotel.slice(hn.length);
+  document.getElementById('ch').innerHTML='🏨 <a href="'+M+encodeURIComponent(hn)+'" target="_blank" rel="noopener"><em>'+hn+'</em></a>'+hr+' · '+d.date+' '+d.week;}
   document.getElementById('cth').textContent=d.theme;
 
   // weather
