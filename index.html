@@ -85,7 +85,8 @@ body{
 .wchip b{font-weight:700;font-variant-numeric:tabular-nums}
 .wnote{margin:9px 16px 0;padding:8px 12px;background:var(--gold-lt);border-radius:9px;font-size:12px;color:var(--muted);line-height:1.6;display:flex;gap:7px;align-items:flex-start}
 .wnote span:first-child{font-size:14px;flex-shrink:0}
-.dc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:3px;font-family:"Noto Serif SC",serif}
+.dc-title{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:3px;font-family:"Noto Serif SC",serif;line-height:1.6}
+.dt{font-size:10px;font-weight:600;color:var(--muted);background:var(--gold-lt);padding:1px 5px;border-radius:6px;vertical-align:middle;white-space:nowrap}
 .dc-hotel{font-size:12px;color:var(--muted)}
 .dc-hotel em{color:var(--gold);font-style:normal;font-weight:500}
 .dc-hotel a{text-decoration:none;border-bottom:1px dashed var(--gold)}
@@ -418,7 +419,7 @@ body{
 const M="https://www.google.com/maps/search/?api=1&query=";
 const XHS="https://www.xiaohongshu.com/search_result?keyword=";
 const DAYS=[
-{d:1,date:"11月15日",week:"周日",drive:"KIX → 名古屋玩整天 → 晚餐后进岐阜美浓",route:"关西机场 → 名古屋港水族馆 → 名古屋市区 → 岐阜美浓",
+{d:1,date:"11月15日",week:"周日",drive:"KIX → 名古屋玩整天 → 晚餐后进岐阜美浓",route:"关西机场 <span class='dt'>2.5h</span> → 名古屋港水族馆 <span class='dt'>20min</span> → 名古屋市区 <span class='dt'>50min</span> → 岐阜美浓",
  theme:"KIX 取车 / 名古屋整天 / 晚餐后再入住岐阜美浓",hotel:"Fairfield by Marriott Gifu Mino（晚到 ~21:00）",
  strategy:"酒店已订不能改，但节奏可以放松。把名古屋当成「完整的一天」而不是顺路点：水族馆 + 午餐 + 荣/热田散步 + 晚餐全部在名古屋市内完成，20:00 后才上高速往岐阜美浓，夜间 50 分钟车程到 Fairfield。务必提前发邮件告知酒店 late check-in ~21:00。晚餐选清淡路线（手羽先 or うどん），避免味噌浓味配红眼疲劳。",
  sights:[
@@ -441,7 +442,7 @@ const DAYS=[
  ],
  parking:"【过路费估算】约 ¥6,500（阪神湾岸 / 伊勢湾岸 / 名古屋高速 / 东海北陆，ETC 普通车）。KIX 租车公司停车场免费（算在租金内）。名古屋港水族馆有专属停车场 ¥600/小时。名古屋站 Meitetsu 或荣三越地下停车场首 2 小时有消费优惠。岐阜美浓 Fairfield 免费停车场。全程务必走 ETC 车道。⚠️ 酒店晚到务必邮件告知 late arrival ~21:00。"},
 
-{d:2,date:"11月16日",week:"周一",drive:"岐阜美浓 → 郡上八幡 → 高山（约 2.5h 净车程）",route:"岐阜美浓 → 郡上八幡 → 高山",
+{d:2,date:"11月16日",week:"周一",drive:"岐阜美浓 → 郡上八幡 → 高山（约 2.5h 净车程）",route:"岐阜美浓 <span class='dt'>40min</span> → 郡上八幡 <span class='dt'>1.5h</span> → 高山",
  theme:"缓冲日 / 水之城郡上八幡 / 傍晚进高山",hotel:"Hotel Around Takayama, Ascend Hotel Collection（第1晚）",
  strategy:"D1 已经把名古屋玩透，D2 不用再南下回头。岐阜美浓北上东海北陆道约 40 分钟到郡上八幡，逛这个「水之城下町」2 小时刚好，继续北上约 1.5 小时抵达高山，下午 4 点前就能 check in，傍晚去老街边缘散步+吃高山拉面。红眼后的第二天，节奏放松最重要。",
  sights:[
@@ -478,7 +479,7 @@ const DAYS=[
  ],
  parking:"今天全程步行，不需要开车。酒店停车场全天停放即可。"},
 
-{d:4,date:"11月18日",week:"周三",drive:"约 3.5–4 小时（含白川乡游览）",route:"高山 → 白川乡（日游）→ 金泽",
+{d:4,date:"11月18日",week:"周三",drive:"约 3.5–4 小时（含白川乡游览）",route:"高山 <span class='dt'>1h</span> → 白川乡 <span class='dt'>1.5h</span> → 金泽",
  theme:"世界遗产日游 / 上午早到避人潮 / 傍晚进金泽",hotel:"Hotel Vista Kanazawa（第1晚）",
  strategy:"白川乡日游的关键是早到，8:30 从高山出发约 1 小时到村口，在游客大量涌入前已经走完合掌村和展望台。中午后出发往金泽，下午抵达正好逛近江町市场和茶屋街。无需夜宿省下一晚高价温泉旅馆。",
  sights:[
@@ -515,7 +516,7 @@ const DAYS=[
  ],
  parking:"今天全程不开车，兼六园–金泽城–主计町可全部步行串联。酒店停车场全天停放。"},
 
-{d:6,date:"11月20日",week:"周五",drive:"约 3.5–4 小时含顺停",route:"金泽 → 小布施 → 长野",
+{d:6,date:"11月20日",week:"周五",drive:"约 3.5–4 小时含顺停",route:"金泽 <span class='dt'>2.5h</span> → 小布施 <span class='dt'>40min</span> → 长野",
  theme:"栗子老街 / 北斋馆 / 傍晚善光寺",hotel:"NEW NAGANO NeXT（第1晚）",
  strategy:"小布施是「小而美」的顺路精华，栗子甜点和北斋浮世绘是两大主轴。建议在小布施停留1.5–2小时，傍晚进长野市区再看善光寺晚秋氛围。",
  sights:[
@@ -532,7 +533,7 @@ const DAYS=[
  ],
  parking:"【过路费估算】约 ¥6,000（北陆道 / 上信越道，ETC 普通车）。小布施有专属公共停车场（免费或低价），步行进老街最方便。长野市区建议停酒店不动，善光寺可步行或搭公车前往。"},
 
-{d:7,date:"11月21日",week:"周六",drive:"雪猴主日（来回约2小时）",route:"长野 → 地狱谷野猿公苑 → 长野",
+{d:7,date:"11月21日",week:"周六",drive:"雪猴主日（来回约2小时）",route:"长野 <span class='dt'>50min</span> → 地狱谷野猿公苑 <span class='dt'>50min</span> → 长野",
  theme:"雪猴泡温泉 / 轻松往返 / 节奏最松",hotel:"NEW NAGANO NeXT（第2晚）",
  strategy:"长野多住一晚后，今天终于变成真正舒服的雪猴日。专心去看猴子，不用担心后面要赶路。雪猴在寒冷天气更活跃，建议早出发。",
  sights:[
@@ -548,7 +549,7 @@ const DAYS=[
  ],
  parking:"【过路费估算】约 ¥1,500（上信越道长野 IC ↔ 信州中野 IC，ETC 普通车）。雪猴公苑有专属停车场（约500円），停车后必须步行约30分钟进园，无法开车进入。"},
 
-{d:8,date:"11月22日",week:"周日",drive:"约 2–2.5 小时（含奈良井宿游览）",route:"长野 → 奈良井宿 → 松本",
+{d:8,date:"11月22日",week:"周日",drive:"约 2–2.5 小时（含奈良井宿游览）",route:"长野 <span class='dt'>1.5h</span> → 奈良井宿 <span class='dt'>45min</span> → 松本",
  theme:"江户宿场町 / 奈良井宿漫步 / 松本过夜",hotel:"Tabino Hotel Lit Matsumoto",
  strategy:"奈良井宿是中山道上保存最完整的宿场町，整条街都像江户时代原装。停留1.5小时刚刚好，逛完再开车45分钟到松本。下午在松本城周边随意走走，傍晚松本老城区居酒屋收尾。",
  sights:[
@@ -567,7 +568,7 @@ const DAYS=[
  ],
  parking:"【过路费估算】约 ¥3,000（长野道，ETC 普通车）。奈良井宿有免费停车场在入口处，步行进宿场町。松本 Tabino Hotel Lit 附近有停车场（收费），停好不动，傍晚步行逛中町和松本城。"},
 
-{d:9,date:"11月23日",week:"周一",drive:"约 4 小时含箱根游",route:"松本 → 御殿场(さわやか午餐) → 箱根一圈 → 御殿场过夜",
+{d:9,date:"11月23日",week:"周一",drive:"约 4 小时含箱根游",route:"松本 <span class='dt'>3h</span> → 御殿场 <span class='dt'>30min</span> → 箱根 <span class='dt'>30min</span> → 御殿场",
  theme:"松本城晨游 / さわやか午餐 / 箱根精选一圈",hotel:"Rembrandt Premium Fuji Gotemba",
  strategy:"D9 的关键是把大涌谷塞进来,而不是留给 D10 倒回去。早上松本城晨光 → 南下御殿场吃さわやか午餐(中午平日等位比傍晚短 40–60%)→ 下午箱根一圈(芦之湖 + 箱根神社 + 大涌谷)→ 傍晚回御殿场 Rembrandt。这样 D10 从御殿场出发就一路向南到伊东,完全不用回头。",
  sights:[
@@ -586,7 +587,7 @@ const DAYS=[
  ],
  parking:"【过路费估算】约 ¥5,500(长野道 / 中央道 / 东富士五湖,ETC 普通车)。松本城收费停车场;御殿场さわやか有自家停车场;芦之湖元箱根港周边付费停车场 ¥500–1000;大涌谷有专属停车场(旺季需确认开放);Rembrandt 酒店免费停车。箱根进山跟导航走国道,避开需要缆车的路段。"},
 
-{d:10,date:"11月24日",week:"周二",drive:"约 1.5 小时(御殿场→三岛→伊东)",route:"御殿场 → 三岛天空步道 → 伊东",
+{d:10,date:"11月24日",week:"周二",drive:"约 1.5 小时(御殿场→三岛→伊东)",route:"御殿场 <span class='dt'>40min</span> → 三岛天空步道 <span class='dt'>1h</span> → 伊东",
  theme:"富士山晨景 / 三岛天空步道 / 伊豆放松启动",hotel:"Ito Kowakien（第1晚）",
  strategy:"D9 把大涌谷搞定了,D10 就变成真正轻松的一天。早上 Rembrandt 酒店看富士山晨景,南下三岛天空步道 + 桜家鳗鱼午餐,下午伊东温泉街散步,傍晚旅馆泡汤,会席晚餐收尾。伊豆放松段正式启动。",
  sights:[
@@ -604,7 +605,7 @@ const DAYS=[
  ],
  parking:"【过路费估算】约 ¥2,000(东名 / 伊豆纵贯道,ETC 普通车)。三岛天空步道有免费大型停车场;伊东温泉街停车场较多,Ito Kowakien 有专属停车。今天全程向南不回头,车程只有 1.5 小时左右,是整个行程最松的驾驶日之一。"},
 
-{d:11,date:"11月25日",week:"周三",drive:"伊豆整天",route:"伊东 / 伊豆",
+{d:11,date:"11月25日",week:"周三",drive:"伊豆整天",route:"伊东 <span class='dt'>20min</span> → 大室山 <span class='dt'>15min</span> → 城崎海岸 <span class='dt'>20min</span> → 伊东",
  theme:"大室山 / 城崎海岸 / 温泉放松",hotel:"Ito Kowakien（第2晚）",
  strategy:"伊豆这天不要做成「景点清单」。排 1–2 个重点就够了，剩下的时间留给泡汤和慢慢吃饭。天气好选大室山+城崎海岸，喜欢动物选仙人掌动物公园。",
  sights:[
@@ -621,7 +622,7 @@ const DAYS=[
  ],
  parking:"大室山有免费大停车场；城崎海岸有付费停车场约300円/小时；今天行程集中在伊豆高原一带，一次停好再步行。"},
 
-{d:12,date:"11月26日",week:"周四",drive:"约 2.5–3 小时车程",route:"伊豆 → 东京浅草（还车）",
+{d:12,date:"11月26日",week:"周四",drive:"约 2.5–3 小时车程",route:"伊豆 <span class='dt'>2.5h</span> → 东京浅草（还车）",
  theme:"还车日 / 浅草夜景 / 切换公共交通",hotel:"Richmond Hotel Asakusa（第1晚）",
  strategy:"今天完成自驾段最后一程，还车后正式切换城市模式。浅草今晚可以轻松逛雷门和仲见世，不需要赶行程。",
  sights:[
@@ -656,7 +657,7 @@ const DAYS=[
  ],
  parking:"今天全程地铁和步行，不涉及驾车。Suica/PASMO卡刷卡最方便。"},
 
-{d:14,date:"11月28日",week:"周六",drive:"返程日",route:"东京 → 成田机场 → 吉隆坡",
+{d:14,date:"11月28日",week:"周六",drive:"返程日",route:"浅草 <span class='dt'>10min</span> → 上野 <span class='dt'>41min</span> → 成田机场 ✈ 吉隆坡",
  theme:"返程 / Skyliner 直达成田 / 提早3小时到机场",hotel:"✈ 17:25 NRT 起飞",
  strategy:"最后一天不要塞景点。国际线加行李托运和退税时间会比想象中长，建议至少提早3小时到成田。住浅草搭 Skyliner 是最直接的选择。",
  sights:[
@@ -732,7 +733,7 @@ function render(i){
   document.querySelectorAll('.mday').forEach((el,j)=>el.classList.toggle('on',j===i));
   document.getElementById('cb').textContent='D'+d.d;
   document.getElementById('cd').textContent=d.drive;
-  document.getElementById('ct').textContent=d.route;
+  document.getElementById('ct').innerHTML=d.route;
   {const hn=d.hotel.split(/[(（]/)[0].trim();const hr=d.hotel.slice(hn.length);
   document.getElementById('ch').innerHTML='🏨 <a href="'+M+encodeURIComponent(hn)+'" target="_blank" rel="noopener"><em>'+hn+'</em></a>'+hr+' · '+d.date+' '+d.week;}
   document.getElementById('cth').textContent=d.theme;
