@@ -123,6 +123,10 @@ body{
   padding:5px 9px;background:var(--blue-lt);border:1px solid var(--blue-bd);
   border-radius:20px;color:var(--blue);font-size:11px;text-decoration:none;white-space:nowrap;margin-top:4px}
 .map-btn:active{background:var(--blue-bd)}
+.xhs-btn{flex-shrink:0;display:inline-flex;align-items:center;gap:4px;
+  padding:5px 9px;background:rgba(255,36,66,.08);border:1px solid rgba(255,36,66,.18);
+  border-radius:20px;color:#ff2442;font-size:11px;text-decoration:none;white-space:nowrap;margin-top:4px}
+.xhs-btn:active{background:rgba(255,36,66,.15)}
 
 /* meal cards */
 .meal-list{display:flex;flex-direction:column;gap:8px;padding-top:2px}
@@ -191,6 +195,7 @@ body{
   .stat-n,.dn,.bud-tot{color:var(--red)}
   .mday.on{background:var(--red);border-color:var(--red)}
   .mday.on .mn{color:#1a1d21}.mday.on .md{color:rgba(26,29,33,.7)}
+  .xhs-btn{background:rgba(255,36,66,.12);border-color:rgba(255,36,66,.25);color:#ff6b81}
   .abtn{box-shadow:0 4px 12px rgba(0,0,0,.5)}
   .abtn.off{background:rgba(255,255,255,.08)}
   .btbl tr:nth-child(even) td,tr[style*="rgba(159,65,39"]{background:rgba(255,255,255,.02)!important}
@@ -411,6 +416,7 @@ body{
 
 <script>
 const M="https://www.google.com/maps/search/?api=1&query=";
+const XHS="https://www.xiaohongshu.com/search_result?keyword=";
 const DAYS=[
 {d:1,date:"11月15日",week:"周日",drive:"KIX → 名古屋玩整天 → 晚餐后进岐阜美浓",route:"关西机场 → 名古屋港水族馆 → 名古屋市区 → 岐阜美浓",
  theme:"KIX 取车 / 名古屋整天 / 晚餐后再入住岐阜美浓",hotel:"Fairfield by Marriott Gifu Mino（晚到 ~21:00）",
@@ -742,7 +748,8 @@ function render(i){
   const sl=document.getElementById('sight-list');sl.innerHTML='';
   d.sights.forEach(s=>{
     const div=document.createElement('div');div.className='sight';
-    div.innerHTML=`<div class="sight-ico">${s.i}</div><div class="sight-info"><div class="sight-name"><span>${s.n}</span>${s.h?`<span class="sh">⏱ ${s.h}</span>`:''}</div><div class="sight-tip">${s.t}</div><a class="map-btn" href="${s.u}" target="_blank" rel="noopener">📍 地图</a></div>`;
+    const xk=s.n.replace(/^[①-⑩\d]+\s*/,'').replace(/（.*?）/g,'').replace(/\(.*?\)/g,'').trim();
+    div.innerHTML=`<div class="sight-ico">${s.i}</div><div class="sight-info"><div class="sight-name"><span>${s.n}</span>${s.h?`<span class="sh">⏱ ${s.h}</span>`:''}</div><div class="sight-tip">${s.t}</div><div style="display:flex;gap:6px;flex-wrap:wrap"><a class="map-btn" href="${s.u}" target="_blank" rel="noopener">📍 地图</a><a class="xhs-btn" href="${XHS}${encodeURIComponent(xk)}" target="_blank" rel="noopener">📕 小红书</a></div></div>`;
     sl.appendChild(div);
   });
 
@@ -751,7 +758,7 @@ function render(i){
   d.meals.forEach(m=>{
     const div=document.createElement('div');div.className='meal';
     const cls=MEAL_CLS[m.t]||'mb-snack';
-    div.innerHTML=`<div class="meal-top"><span class="meal-badge ${cls}">${m.t}</span><div class="meal-info"><div class="meal-name">${m.n}</div><div class="meal-type">${m.ty}</div><div class="meal-tip">${m.tip}</div></div></div><div class="meal-map"><a class="map-btn" href="${m.u}" target="_blank" rel="noopener">📍 地图导航</a></div>`;
+    div.innerHTML=`<div class="meal-top"><span class="meal-badge ${cls}">${m.t}</span><div class="meal-info"><div class="meal-name">${m.n}</div><div class="meal-type">${m.ty}</div><div class="meal-tip">${m.tip}</div></div></div><div class="meal-map"><a class="map-btn" href="${m.u}" target="_blank" rel="noopener">📍 地图导航</a><a class="xhs-btn" href="${XHS}${encodeURIComponent(m.n)}" target="_blank" rel="noopener">📕 小红书</a></div>`;
     ml.appendChild(div);
   });
 
