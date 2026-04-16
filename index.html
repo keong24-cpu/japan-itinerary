@@ -778,13 +778,11 @@ function render(i){
   if(c.note)html+=`<div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6">💡 ${c.note}</div>`;
   document.getElementById('cost-body').innerHTML=html;
 
-  // reset sections: sights/park/cost closed, meals open
-  ['sights','park','cost'].forEach(k=>{
+  // reset sections: all closed by default
+  ['sights','meals','park','cost'].forEach(k=>{
     document.getElementById('body-'+k).classList.remove('open');
     document.getElementById('chev-'+k).classList.remove('open');
   });
-  document.getElementById('body-meals').classList.add('open');
-  document.getElementById('chev-meals').classList.add('open');
 }
 
 function goTo(i){
